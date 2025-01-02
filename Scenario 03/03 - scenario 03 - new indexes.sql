@@ -29,27 +29,28 @@
 USE ERP_Demo;
 GO
 
+ALTER DATABASE ERP_Demo SET QUERY_STORE (OPERATION_MODE = READ_ONLY);
+GO
+
 /*
 	The JOIN Operation is on centralsapaccount and on ccc_aliasname!
 	What could be more obvious than indexing these two attributes?
 */
-IF EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'dbo.persons') AND name = N'nix_persons_centralsapaccount')
-	DROP INDEX nix_persons_centralsapaccount ON dbo.persons;
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'dbo.persons') AND name = N'nix_persons_centralsapaccount')
+	CREATE NONCLUSTERED INDEX nix_persons_centralsapaccount
+	ON dbo.persons (centralsapaccount)
+	WITH (SORT_IN_TEMPDB = ON, DATA_COMPRESSION = PAGE);
 	GO
 
-IF EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'dbo.persons') AND name = N'nix_persons_ccc_aliasname')
-	DROP INDEX nix_persons_ccc_aliasname ON dbo.persons;
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'dbo.persons') AND name = N'nix_persons_ccc_aliasname')
+	CREATE NONCLUSTERED INDEX nix_persons_ccc_aliasname
+	ON dbo.persons (ccc_aliasname)
+	WITH (SORT_IN_TEMPDB = ON, DATA_COMPRESSION = PAGE);
 	GO
 
-CREATE NONCLUSTERED INDEX nix_persons_centralsapaccount
-ON dbo.persons (centralsapaccount)
-WITH (DATA_COMPRESSION = PAGE);
+ALTER DATABASE ERP_Demo SET QUERY_STORE (OPERATION_MODE = READ_WRITE);
 GO
 
-CREATE NONCLUSTERED INDEX nix_persons_ccc_aliasname
-ON dbo.persons (ccc_aliasname)
-WITH (DATA_COMPRESSION = PAGE);
-GO
 
 /* We check it out! */
 SET STATISTICS IO, TIME ON;

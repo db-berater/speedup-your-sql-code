@@ -26,10 +26,12 @@
 	PARTICULAR PURPOSE.
 	============================================================================
 */
-/* This setting is for statisticsparser only! */
-SET LANGUAGE us_english;
-GO
+/*
+	If you want to check the resources:
+	SET LANGUAGE us_english
 
+	This setting is for https://statisticsparser.com only!
+*/
 USE ERP_Demo;
 GO
 
@@ -69,6 +71,9 @@ BEGIN
 END
 GO
 
+ALTER DATABASE ERP_demo SET QUERY_STORE CLEAR;
+GO
+
 /*
 	Activate the runtime execution plan before you execute the procedure!
 */
@@ -83,5 +88,3 @@ GO
 
 SET STATISTICS IO, TIME OFF;
 GO
-
-ALTER DATABASE ERP_demo SET QUERY_STORE CLEAR;

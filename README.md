@@ -56,6 +56,9 @@ As a rule, more jobs are queued at a high rate than are processed. For this reas
 The first parameter specifies how many jobs that have already been executed should be deleted. The second parameter specifies the batch size, which determines how many records should be deleted from the table at the same time.
 
 # Scenario 03
+New employees have to be onboarded once a month and employees who leave the company have to be offboarded.
+For this, authorizations have to be adjusted for all accessible systems. Among other things, the authorizations for the SAP system repeatedly cause very long waiting times, which have had a significant impact on subsequent and parallel processes.
+When analyzing the system, one query stood out because it sometimes ran for several minutes for one process run.
 
 # Scenario 04
 
