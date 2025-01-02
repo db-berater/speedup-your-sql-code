@@ -35,6 +35,8 @@ Workshop Scripts for SQL Server Workshop "Making Bad Codes Better"
   - [Windows Admin Center](https://www.microsoft.com/en-us/windows-server/windows-admin-center)
 + The folder **SQL Query Stress** contains prepared configuration settings for each scenario which produce load test with SQLQueryStress from Adam Machanic
   - [SQLQueryStress](https://github.com/ErikEJ/SqlQueryStress)
++ The folder **SQL Extended Events** contains scripts for the implementation of extended events for the different scenarios
+  All extended events are written for "LIVE WATCHING" and will have target file for saving the results.
 
 # Scenario 01
 The development team love to work with user definied functions (UDF).
