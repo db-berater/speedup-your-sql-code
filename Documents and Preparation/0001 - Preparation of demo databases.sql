@@ -38,3 +38,5 @@ EXEC ERP_Demo.dbo.sp_set_sql_server_defaults;
 GO
 
 SELECT * FROM ERP_Demo.dbo.get_database_help_info();
+SELECT * FROM ERP_Demo.dbo.get_object_help_info(NULL);
+GO
