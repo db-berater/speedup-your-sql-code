@@ -45,7 +45,8 @@
         },
         {
             "object": "System",
-            "counters": [
+            "counters":
+            [
                 "Processor Queue Length"
             ],
             "type": "Line"
