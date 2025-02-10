@@ -44,19 +44,19 @@ GO
 EXEC dbo.sp_create_indexes_customers;
 GO
 
-EXEC dbo.sp_create_indexes_orders;
+EXEC dbo.sp_create_indexes_orders @column_list = N'o_orderkey, @o_orderdate';
 GO
 
 EXEC dbo.sp_create_indexes_nations;
 GO
 
 /* Create the foreign key references on the tables */
-EXEC dbo.sp_create_foreignkeys
+EXEC dbo.sp_create_foreign_keys
 	@master_table = 'dbo.nations',
     @detail_table = N'dbo.customers';
 GO
 
-EXEC dbo.sp_create_foreignkeys
+EXEC dbo.sp_create_foreign_keys
 	@master_table = 'dbo.customers',
     @detail_table = N'dbo.orders';
 GO

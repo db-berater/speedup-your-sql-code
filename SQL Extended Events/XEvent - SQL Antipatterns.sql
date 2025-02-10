@@ -1,3 +1,30 @@
+/*
+	============================================================================
+	File:		    XEvent - SQL Antipatterns.sql
+
+	Description:    This script creates an extended event session which tracks
+                    all SQL Antipattern queries to give a hint about improvement
+                    of SQL Code.
+
+				    THIS SCRIPT IS PART OF THE WORKSHOP:
+					    "Workshop - Spped Up Your SQL Code"
+
+	Date:		    October 2024
+	Revion:		    January 2025
+
+	SQL Server Version: >= 2016
+	------------------------------------------------------------------------------
+	Written by Uwe Ricken, db Berater GmbH
+
+	This script is intended only as a supplement to demos and lectures
+	given by Uwe Ricken.  
+  
+	THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF 
+	ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED 
+	TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A
+	PARTICULAR PURPOSE.
+	============================================================================
+*/
 IF EXISTS (SELECT * FROM sys.server_event_sessions WHERE name = N'Query Antipatterns')
     DROP EVENT SESSION [Query Antipatterns] ON SERVER 
     GO

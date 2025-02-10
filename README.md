@@ -33,8 +33,10 @@ Workshop Scripts for SQL Server Workshop "Making Bad Codes Better"
    
 + The folder **Windows Admin Center** contains json files with the configuration of performance counter. These files can only be used with Windows Admin Center
   - [Windows Admin Center](https://www.microsoft.com/en-us/windows-server/windows-admin-center)
+  - Before you can use the JSON templates make sure you replace the Machine Name / Instance Name with your Machine Name / Instance Name
 + The folder **SQL Query Stress** contains prepared configuration settings for each scenario which produce load test with SQLQueryStress from Adam Machanic
   - [SQLQueryStress](https://github.com/ErikEJ/SqlQueryStress)
+  - Before you can use the JSON templates make sure you replace the Machine Name / Instance Name with your Machine Name / Instance Name
 + The folder **SQL Extended Events** contains scripts for the implementation of extended events for the different scenarios
   All extended events are written for "LIVE WATCHING" and will have target file for saving the results.
 

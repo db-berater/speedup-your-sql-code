@@ -107,3 +107,11 @@ GO
 
 EXEC dbo.proc_recompile;
 GO
+
+/* Clear the enviroment */
+IF EXISTS (SELECT * FROM sys.dm_xe_sessions WHERE name = N'Track procedure recompiles')
+BEGIN
+	RAISERROR (N'Dropping XEvent-Session: [Track procedure recompiles]', 0, 1) WITH NOWAIT;
+	DROP EVENT SESSION [Track procedure recompiles] ON SERVER;
+END
+GO

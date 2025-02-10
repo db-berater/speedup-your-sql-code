@@ -20,7 +20,7 @@
 			"Login":"",
 			"MaxPoolSize":2,
 			"Password":"",
-			"Server":"NB-LENOVO-I\\SQL_2022",
+			"Server":"SQLServer",
 			"TrustServerCertificate":true
 		},
 	"MainQuery":"EXEC dbo.stress_query @uid_sapuser",
@@ -40,7 +40,7 @@
 			"Login":"",
 			"MaxPoolSize":0,
 			"Password":"",
-			"Server":"NB-LENOVO-I\\SQL_2022",
+			"Server":"SQLServer",
 			"TrustServerCertificate":false
 		},
 	"ParamMappings":

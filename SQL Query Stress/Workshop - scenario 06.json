@@ -20,7 +20,7 @@
 				"Login":"",
 				"MaxPoolSize":2,
 				"Password":"",
-				"Server":"NB-LENOVO-I\\SQL_2022",
+				"Server":"SQLServer",
 				"TrustServerCertificate":true
 		},
 		"MainQuery":"EXEC dbo.get_statistics_per_time_range\r\n\t@date_from = '2023-01-01',\r\n\t@date_to = '2023-01-31';",

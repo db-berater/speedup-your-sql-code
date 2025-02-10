@@ -1,6 +1,6 @@
 @echo off
 REM Define the SQL Server connection parameters
-SET SERVER_NAME=NB-LENOVO-I\SQL_2022
+SET SERVER_NAME=SQLServer
 SET DATABASE_NAME=ERP_Demo
 SET USERNAME=YourUsername
 SET PASSWORD=YourPassword
