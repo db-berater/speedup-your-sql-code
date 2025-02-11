@@ -1,4 +1,4 @@
-# Workshop - Making Bad Codes Better
+# Workshop - Accelerate your T-SQL Code
 This repository contains all codes for my workshop "Making Bad Codes Better" which deals with several real world examples of bad written SQL Code
 All scripts are created for the use of Microsoft SQL Server (Version 2016 or higher)
 To work with the scripts it is required to have the workshop database [ERP_Demo](https://www.db-berater.de/downloads/ERP_DEMO_2012.BAK) installed on your SQL Server Instance.
@@ -23,7 +23,7 @@ The database contains a framework for all workshops / sessions from db Berater G
 + Stored Procedures
 + User Definied Inline Functions
 
-Workshop Scripts for SQL Server Workshop "Making Bad Codes Better"
+Workshop Scripts for SQL Server Workshop "Accelerate your T-SQL Code"
 
 # Folder structure
 + Each scenario is stored in a separate folder (e.g. Scenario 01 in Folder Scenario 01)
@@ -52,10 +52,14 @@ The calculation is a simple math:
 + Z customer: no orders for a given year
 
 # Scenario 02
-A software uses a table to queue jobs. Whenever a new job is to be started, its details are written to this table. The table grows very quickly, as up to 100,000 jobs can be scheduled in an hour.
-For this reason, a background job runs to clean up the job_queue table.
-As a rule, more jobs are queued at a high rate than are processed. For this reason, the software manufacturer has decided to parameterize the process.
-The first parameter specifies how many jobs that have already been executed should be deleted. The second parameter specifies the batch size, which determines how many records should be deleted from the table at the same time.
+A software uses a table to queue jobs. Whenever a new job is to be queued,
+its details are written into a table. The table grows very quickly, as up to
+100,000 jobs can be scheduled in one hour.
+
++ Sometimes the table is growing very fast
++ The maintenance job cannot scale.
++ The table is growing
++ The system suffers from performance problems
 
 # Scenario 03
 New employees have to be onboarded once a month and employees who leave the company have to be offboarded.

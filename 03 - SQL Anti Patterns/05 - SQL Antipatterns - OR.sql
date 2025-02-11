@@ -29,6 +29,9 @@ SET NOCOUNT ON;
 SET XACT_ABORT ON;
 GO
 
+USE ERP_Demo;
+GO
+
 IF SCHEMA_ID(N'demo') IS NULL
 	EXEC sp_executesql N'CREATE SCHEMA [demo] AUTHORIZATION dbo;';
 	GO
@@ -82,6 +85,9 @@ GO
 /*
 	See the performance of the query
 */
+SET STATISTICS IO, TIME ON;
+GO
+
 SELECT	DISTINCT
 		p.p_partkey,
 		p.p_brand

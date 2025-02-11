@@ -2,7 +2,7 @@
     "version": 1,
     "workspace":
     {
-        "name": "Workshop - Making Bad Codes better - Scenario 02",
+        "name": "Workshop - Accelerate your SQL Code - Scenario 02",
         "created": "2024-11-17T00:00:00.000Z",
         "modified": "2024-11-17T00:00:00.000Z",
         "timeRange": "FifteenMinutes",
@@ -13,10 +13,10 @@
         {
             "object": "MSSQL$SQL_2022:User Settable",
             "instances":
-		        [
-                    {"instanceName": "User counter 2"},
-                    {"instanceName": "User counter 1"}
-                ],
+		    [
+                {"instanceName": "User counter 2"},
+                {"instanceName": "User counter 1"}
+            ],
             "counters":
 		        [
                     "Query"
@@ -26,9 +26,9 @@
         {
             "object": "Logischer Datenträger",
             "instances": 
-            {
-                "instanceName": "T:"
-            },
+            [
+                {"instanceName": "T:"}
+            ],
             "counters": 
 		    [
                 "Bytes gelesen/s",
