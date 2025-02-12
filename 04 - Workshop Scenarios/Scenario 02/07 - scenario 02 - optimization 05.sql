@@ -33,7 +33,7 @@ GO
 /* repopulate the 5 million rows again! */
 DROP TABLE IF EXISTS dbo.jobqueue;
 DROP TABLE IF EXISTS dbo.used_partition;
-DROP TABLE IF EXISTS dbo.session_values;
+DROP TABLE IF EXISTS dbo.error_log;
 GO
 
 /* With the exact number of partitions to the simultanious threads we can spread the workload */
@@ -73,16 +73,21 @@ CREATE TABLE dbo.jobqueue
 	sortorder		INT			NOT NULL	CONSTRAINT df_jobqueue_sortorder DEFAULT (0),
 	istouched		NCHAR(1)	NULL,
 	genprocid		VARCHAR(38) NOT NULL,
-	generation		INT			NULL		CONSTRAINT df_jobqueue_generation DEFAULT (0),
+	generation		INT			NOT NULL	CONSTRAINT df_jobqueue_generation DEFAULT (0),
 	session_partition	AS	CAST(ABS(CHECKSUM(uid_jobqueue)) % 10 + 1 AS SMALLINT) PERSISTED,
 
 	CONSTRAINT pk_jobqueue PRIMARY KEY CLUSTERED 
 	(
-		uid_jobqueue ASC,
-		session_partition
+		session_partition,
+		generation,
+		uid_jobqueue ASC
 	)
 	ON ps_session_divisor (session_partition)
 );
+GO
+
+/* Prevent locking the complete table but only the affected partition */
+ALTER TABLE dbo.jobqueue SET (LOCK_ESCALATION = AUTO);
 GO
 
 /* Now we fill ~5.000.000 rows into the table */
@@ -109,22 +114,35 @@ GO
 /*
 	Let's create an infrastructure for parallel delete operations
 */
-DROP TABLE IF EXISTS dbo.used_partition;
-GO
-
 CREATE TABLE dbo.used_partition
 (
-	session_uid		UNIQUEIDENTIFIER	NOT NULL,
-	partition_key	SMALLINT			NOT NULL,
+	session_uid		SMALLINT	NOT NULL,
+	partition_key	SMALLINT	NOT NULL,
 
 	CONSTRAINT pk_used_partition PRIMARY KEY CLUSTERED
-	(partition_key),
+	(session_uid)
+);
+GO
 
-	CONSTRAINT uq_session_id UNIQUE (session_uid)
+CREATE TABLE dbo.error_log
+(
+	session_id		SMALLINT		NOT NULL,
+	log_time		DATETIME2(0)	NOT NULL	CONSTRAINT df_error_log_log_time DEFAULT (SYSDATETIME()),
+	error_number	SMALLINT		NOT NULL,
+	error_text		NVARCHAR(2048)	NOT NULL,
+
+	CONSTRAINT pk_error_log PRIMARY KEY CLUSTERED
+	(
+		log_time,
+		session_id
+	)
+	WITH (DATA_COMPRESSION = PAGE)
 );
 GO
 
 /* Stored procedure changed for mulitple processes at the same time */
+RAISERROR ('Creating stored procedure [dbo].[jobqueue_delete]...', 0, 1) WITH NOWAIT;
+GO
 CREATE OR ALTER PROCEDURE dbo.jobqueue_delete
 	@rowlimit	INT	=	1000,
 	@maxlimit	INT =	50000
@@ -133,7 +151,7 @@ BEGIN
 	SET NOCOUNT ON;
 
 	/* Declaration of variables for the execution */
-	DECLARE	@session_uid			UNIQUEIDENTIFIER = NEWID();
+	DECLARE	@session_uid			SMALLINT = @@SPID;
 	DECLARE	@partition_key			INT;
 
 	DECLARE	@rows_deleted_actual	INT = 1;
@@ -190,7 +208,7 @@ BEGIN
 					jq
 			FROM	dbo.jobqueue AS jq
 			WHERE	generation = -1
-					AND $PARTITION.pf_session_divisor(sv.partition_key) = @partition_key;
+					AND jq.session_partition = @partition_key;
 
 			SET	@rows_deleted_actual = @@ROWCOUNT;
 			SET	@rows_deleted_total += @rows_deleted_actual;
@@ -202,10 +220,10 @@ BEGIN
 	BEGIN CATCH
 		SET	@error_message = ERROR_MESSAGE();
 		SET	@error_number = ERROR_NUMBER();
-		SET	@error_line = ERROR_LINE();
-		SELECT	@error_message	AS	error_message,
-				@error_number	AS error_number,
-				@error_line		AS	error_ine;
+
+		INSERT INTO dbo.error_log
+		(session_id, error_number, error_text)
+		VALUES (@session_uid, @error_number, @error_message);
 	END CATCH
 
 	/* Now we clean the environment */
@@ -214,4 +232,7 @@ BEGIN
 
 	RETURN @rows_deleted_total;
 END
+GO
+
+ALTER DATABASE ERP_Demo SET QUERY_STORE CLEAR;
 GO

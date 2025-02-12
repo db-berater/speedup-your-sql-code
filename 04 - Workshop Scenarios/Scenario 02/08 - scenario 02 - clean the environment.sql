@@ -30,6 +30,8 @@ GO
 ALTER DATABASE ERP_Demo SET READ_COMMITTED_SNAPSHOT OFF WITH ROLLBACK IMMEDIATE;
 
 /* Remove partitioning infrastructure */
+DROP TABLE IF EXISTS dbo.jobqueue;
+DROP TABLE IF EXISTS dbo.used_partition;
 DROP TABLE IF EXISTS dbo.session_values;
 GO
 
