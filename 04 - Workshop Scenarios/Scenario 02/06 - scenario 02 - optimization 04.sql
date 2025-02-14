@@ -102,3 +102,16 @@ WHERE	ddius.database_id = DB_ID()
 ORDER BY
 		i.index_id ASC;
 GO
+
+ALTER TABLE dbo.jobqueue
+DROP CONSTRAINT pk_jobqueue;
+GO
+
+ALTER TABLE dbo.jobqueue
+ADD CONSTRAINT pk_jobqueue PRIMARY KEY CLUSTERED (uid_jobqueue)
+WITH
+(
+	DATA_COMPRESSION = PAGE,
+	SORT_IN_TEMPDB = ON
+);
+GO

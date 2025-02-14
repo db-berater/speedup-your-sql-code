@@ -175,3 +175,6 @@ endLabel:
 	RETURN (@num_deletes_total);
 END
 GO
+
+ALTER DATABASE ERP_Demo SET QUERY_STORE CLEAR;
+GO

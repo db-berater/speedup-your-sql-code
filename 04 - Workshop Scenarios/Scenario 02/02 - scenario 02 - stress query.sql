@@ -24,6 +24,10 @@
 	PARTICULAR PURPOSE.
 	============================================================================
 */
+SET NOCOUNT ON;
+SET XACT_ABORT ON;
+GO
+
 USE ERP_Demo;
 GO
 

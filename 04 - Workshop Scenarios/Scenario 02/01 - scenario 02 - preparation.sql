@@ -159,3 +159,7 @@ CREATE TYPE dbo.helpertable AS TABLE
 	intproperty	INT			NULL		DEFAULT (0)
 );
 GO
+
+/* Clear the query store to get rid of the insert activities! */
+ALTER DATABASE ERP_Demo SET QUERY_STORE CLEAR;
+GO

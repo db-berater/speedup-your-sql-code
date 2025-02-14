@@ -58,7 +58,7 @@ BEGIN TRY
 		The @rows_total is only for checking IF data are available
 		in the table.
 	*/
-	IF EXISTS (SELECT * FROM dbo.jobqueue)
+	IF EXISTS (SELECT * FROM dbo.jobqueue WHERE generation = -1)
 	BEGIN
 		/*
 			We insert the max rows which should be deleted
@@ -90,7 +90,7 @@ BEGIN TRY
 			SET		@LaufDelete = @@ROWCOUNT;
 
 			IF @LaufDelete = 0
-				CONTINUE;
+				BREAK;
 
 			/* now we mark processed records */
 			UPDATE	@Items
@@ -129,4 +129,7 @@ END CATCH
 endLabel:
 	RETURN @AnzahlLoeschGesamt;
 END
+GO
+
+ALTER DATABASE ERP_Demo SET QUERY_STORE CLEAR;
 GO
