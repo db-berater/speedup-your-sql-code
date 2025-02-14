@@ -245,10 +245,8 @@ BEGIN
 	FOR
 		SELECT	i.o_custkey				AS	new_o_custkey,
 				YEAR(i.o_orderdate)		AS	new_o_orderyear,
-				i.o_orderstatus			AS	new_o_orderstatus,
 				d.o_custkey				AS	old_o_custkey,
-				YEAR(d.o_orderdate)		AS	old_o_orderyear,
-				d.o_orderstatus			AS	old_o_orderstatus
+				YEAR(d.o_orderdate)		AS	old_o_orderyear
 		FROM	inserted AS i
 				INNER JOIN deleted AS d
 				ON (i.o_orderkey = d.o_orderkey);

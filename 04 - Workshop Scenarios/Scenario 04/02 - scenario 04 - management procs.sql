@@ -32,7 +32,8 @@ GO
 
 USE ERP_Demo;
 GO
-
+RAISERROR ('Creating stored procedure webshop.insert_order_record...', 0, 1) WITH NOWAIT;
+GO
 CREATE OR ALTER PROCEDURE webshop.insert_order_record
 AS
 BEGIN
@@ -116,3 +117,46 @@ BEGIN
 	END
 END
 GO
+
+RAISERROR ('Creating stored procedure webshop.move_order_record...', 0, 1) WITH NOWAIT;
+GO
+
+ALTER   PROCEDURE [webshop].[move_order_record]
+AS
+BEGIN
+	SET NOCOUNT ON;
+	SET XACT_ABORT ON;
+
+	DECLARE	@num_records	INT	=	(SELECT COUNT_BIG(*) FROM webshop.orders);
+	DECLARE	@o_orderkey		BIGINT = (SELECT (RAND() * @num_records) + 1);
+	DECLARE	@to_custkey		BIGINT = (SELECT (RAND() * 1600000) + 1);
+
+	UPDATE	webshop.orders
+	SET		o_custkey = @to_custkey,
+			o_orderstatus = N'M'
+	WHERE	o_orderkey = @o_orderkey;
+END
+GO
+
+RAISERROR ('Creating stored procedure webshop.delete_order_record...', 0, 1) WITH NOWAIT;
+GO
+
+CREATE OR ALTER PROCEDURE [webshop].[delete_order_record]
+AS
+BEGIN
+	SET NOCOUNT ON;
+	SET XACT_ABORT ON;
+
+	DECLARE	@max_orders	BIGINT	= (SELECT COUNT_BIG(*) FROM webshop.orders);
+	DECLARE	@o_orderkey BIGINT = RAND() * @max_orders + 1;
+
+	BEGIN TRANSACTION
+		DELETE	webshop.lineitems
+		WHERE	l_orderkey = @o_orderkey;
+
+		DELETE	webshop.orders
+		WHERE	o_orderkey = @o_orderkey;
+	COMMIT TRANSACTION;
+END
+GO
+

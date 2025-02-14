@@ -1,11 +1,13 @@
 /*
 	============================================================================
-	File:		04 - scenario 04 - insert trigger - demo.sql
+	File:		07 - scenario 04 - optimization - final.sql
 
-	Summary:	this script demonstrates the bad behavior of the trigger.
-				The trigger uses a cursor for a "row by row" processing.
-				Furthermore the trigger cannot use indexes efficently because
-				it is using functions to transform attributes!
+	Summary:	The problems cannot be solved sufficently by optimizing the triggers.
+				Instead of triggers the implementation of a user definied function
+				seems to be the better way.
+
+				It is not better when we query the data but will speed up the 
+				DML processes.
 
 				THIS SCRIPT IS PART OF THE WORKSHOP:
 					"Accelerate your SQL Code"
@@ -30,37 +32,7 @@ SET NOCOUNT ON;
 SET XACT_ABORT ON;
 GO
 
-/*
-	Let's run the insert of 10,000 rows and check the IO and CPU
-*/
-SET STATISTICS IO, TIME ON;
-GO
-
-WITH i
-AS
-(
-	SELECT	TOP (10000) o_orderkey FROM dbo.orders
-	EXCEPT
-	SELECT	o_orderkey FROM webshop.orders
-)
-INSERT INTO webshop.orders WITH (TABLOCK)
-SELECT	o.*
-FROM	dbo.orders AS o
-		INNER JOIN i
-		ON (o.o_orderkey = i.o_orderkey);
-GO
-
-
 USE ERP_Demo;
 GO
 
-CREATE OR ALTER TRIGGER webshop.trg_orders_insert
-ON webshop.orders
-FOR INSERT
-AS
-BEGIN
-	SET NOCOUNT ON;
-	SET XACT_ABORT ON;
-
-
-END
+/*
