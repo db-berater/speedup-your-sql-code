@@ -5,7 +5,7 @@ $directory = Get-Location
 
 # Define the search and replace strings
 $searchText = "NB-LENOVO-I\SQL_2022"
-$replaceText = "MyServer\Instance"
+$replaceText = "SQLServer"
 
 # Get all .json files in the directory and subdirectories
 $jsonFiles = Get-ChildItem -Path $directory -Recurse -Filter *.json

@@ -1,0 +1,55 @@
+{
+	"CollectIoStats":true,
+	"CollectTimeStats":true,
+	"CommandTimeout":0,
+	"ConnectionTimeout":15,
+	"DelayBetweenQueries":0,
+	"EnableConnectionPooling":true,
+	"ForceDataRetrieval":false,
+	"KillQueriesOnCancel":true,
+	"MainDbConnectionInfo":
+		{
+			"AdditionalParameters":"",
+			"ApplicationIntent":0,
+			"AzureMFA":false,
+			"ConnectTimeout":15,
+			"Database":"ERP_Demo",
+			"EnablePooling":true,
+			"EncryptOption":"True",
+			"IntegratedAuth":true,
+			"Login":"",
+			"MaxPoolSize":2,
+			"Password":"",
+			"Server":"SQLServer",
+			"TrustServerCertificate":true
+		},
+	"MainQuery":"EXEC dbo.stress_query @uid_sapuser",
+	"NumIterations":10,
+	"NumThreads":500,
+	"ParamDbConnectionInfo":
+		{
+			"AdditionalParameters":"",
+			"ApplicationIntent":0,
+			"AzureMFA":false,
+			"ConnectTimeout":0,
+			"Database":"",
+			"EnablePooling":true,
+			"EncryptOption":
+			"False",
+			"IntegratedAuth":true,
+			"Login":"",
+			"MaxPoolSize":0,
+			"Password":"",
+			"Server":"SQLServer",
+			"TrustServerCertificate":false
+		},
+	"ParamMappings":
+	[
+		{
+			"Key":"@uid_sapuser",
+			"Value":"uid_sapuser"
+		}
+	],
+	"ParamQuery":"SELECT\tTOP (20) uid_sapuser\r\nFROM dbo.sapusers;",
+	"ShareDbSettings":true
+}

@@ -1,0 +1,55 @@
+{
+    "version": 1,
+    "workspace": {
+        "name": "PerfMon Counter - scenario 04",
+        "created": "2024-10-10T12:16:01.861Z",
+        "modified": "2024-11-16T14:20:57.660Z",
+        "timeRange": "FifteenMinutes",
+        "isCluster": false
+    },
+    "counters":
+	[
+        {
+            "object": "Prozessor",
+            "instances": [
+                {
+                    "instanceName": "_Total"
+                }
+            ],
+            "counters": [
+                "Prozessorzeit (%)"
+            ],
+            "type": "Line"
+        },
+        {
+            "object": "MSSQL$SQL_2022:SQL Statistics",
+            "counters": [
+                "Batch Requests/sec"
+            ],
+            "type": "Line"
+        },
+        {
+            "object": "Logischer Datenträger",
+            "instances":
+			[
+                {
+                    "instanceName": "T:"
+                }
+            ],
+            "counters":
+			[
+                "Bytes geschrieben/s",
+                "Schreibvorgänge/s"
+            ],
+            "type": "Line"
+        },
+        {
+            "object": "System",
+            "counters":
+            [
+                "Processor Queue Length"
+            ],
+            "type": "Line"
+        }
+    ]
+}
