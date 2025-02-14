@@ -24,8 +24,8 @@
 			"TrustServerCertificate":true
 		},
 	"MainQuery":"EXEC dbo.stress_query @uid_sapuser",
-	"NumIterations":100,
-	"NumThreads":1,
+	"NumIterations":10,
+	"NumThreads":500,
 	"ParamDbConnectionInfo":
 		{
 			"AdditionalParameters":"",

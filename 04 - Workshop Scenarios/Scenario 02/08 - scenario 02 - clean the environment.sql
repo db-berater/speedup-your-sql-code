@@ -24,10 +24,20 @@
 	PARTICULAR PURPOSE.
 	============================================================================
 */
+SET NOCOUNT ON;
+SET XACT_ABORT ON;
+GO
+
 USE ERP_Demo;
 GO
 
+EXEC sp_drop_foreign_keys @table_name = N'ALL';
+EXEC sp_drop_indexes @table_name = N'ALL';
+EXEC sp_drop_statistics @table_name = N'ALL';
+GO
+
 ALTER DATABASE ERP_Demo SET READ_COMMITTED_SNAPSHOT OFF WITH ROLLBACK IMMEDIATE;
+GO
 
 /* Remove partitioning infrastructure */
 DROP TABLE IF EXISTS dbo.jobqueue;
