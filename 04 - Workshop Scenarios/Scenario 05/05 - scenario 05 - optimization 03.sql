@@ -1,10 +1,9 @@
 /*
 	============================================================================
-	File:		08 - scenario 06 - optimization 05.sql
+	File:		05 - scenario 05 - optimization 03.sql
 
-	Summary:	The best approach to deal with lots of rows is to avoid cursors!
-				Try to cover your goal in a set based operation instead of a row
-				based operation!
+	Summary:	The COUNT function returns the data type INT but it needs a 
+				type conversion from BIGINT to INT.
 
 				THIS SCRIPT IS PART OF THE WORKSHOP:
 					"Performance optimization by identifying and correcting bad SQL code"
@@ -69,37 +68,52 @@ BEGIN
 			ON (c.c_custkey = o.o_custkey)
 	WHERE	o.o_orderdate BETWEEN @date_from AND @date_to;
 
-	;WITH cl
-	AS
-	(
-		SELECT	cs.c_custkey,
-				COUNT_BIG(DISTINCT o.o_orderkey)						AS	c_num_orders,
-				ISNULL(SUM(l.l_extendedprice * (1.0 - l_discount)), 0)	AS	c_val_orders
-		FROM	#customer_stats AS cs
-				OUTER APPLY
+	DECLARE	c CURSOR
+	FOR
+		SELECT	c_custkey
+		FROM	#customer_stats;
+
+	OPEN c;
+
+	FETCH NEXT FROM c INTO @c_custkey;
+	WHILE @@FETCH_STATUS = 0
+	BEGIN
+		SELECT	@c_num_orders = COUNT_BIG(*)
+		FROM	(
+					SELECT	TOP (3)
+							o_custkey,
+							o_orderkey
+					FROM	dbo.orders
+					WHERE	o_custkey = @c_custkey
+							AND o_orderdate BETWEEN @date_from AND @date_to
+					ORDER BY
+							o_orderdate DESC
+				) AS t;
+
+		SELECT	@c_val_orders = ISNULL(SUM(l.l_extendedprice * (1.0 - l_discount)), 0)
+		FROM	dbo.lineitems AS l
+				INNER JOIN
 				(
-					dbo.lineitems AS l
-					INNER JOIN
-					(
-						SELECT	TOP (3)
-								o_orderkey
-						FROM	dbo.orders AS o
-						WHERE	o.o_custkey = cs.c_custkey
-								AND o_orderdate BETWEEN @date_from AND @date_to
-						ORDER BY
-								o_orderdate DESC
-					) AS o
-					ON (o.o_orderkey = l.l_orderkey)
-				)
-		GROUP BY
-				cs.c_custkey
-	)
-	UPDATE	cs
-	SET		cs.c_num_orders = cl.c_num_orders,
-			cs.c_val_orders = cl.c_val_orders
-	FROM	#customer_stats AS cs
-			INNER JOIN cl
-			ON (cs.c_custkey = cl.c_custkey);
+					SELECT	TOP (3)
+							o_orderkey
+					FROM	dbo.orders AS o
+					WHERE	o.o_custkey = @c_custkey
+							AND o_orderdate BETWEEN @date_from AND @date_to
+					ORDER BY
+							o_orderdate DESC,
+							o.o_orderkey DESC
+				) AS o
+				ON (o.o_orderkey = l.l_orderkey);
+
+		UPDATE	#customer_stats
+		SET		c_val_orders = @c_val_orders
+		WHERE	c_custkey = @c_custkey;
+
+		FETCH NEXT FROM c INTO @c_custkey;
+	END
+
+	CLOSE c;
+	DEALLOCATE c;
 
 	SELECT	r.r_name								AS	region_name,
 			COUNT_BIG(*)							AS	num_customers,

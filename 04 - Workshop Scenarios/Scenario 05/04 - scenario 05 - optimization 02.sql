@@ -1,6 +1,6 @@
 /*
 	============================================================================
-	File:		05 - scenario 06 - optimization 02.sql
+	File:		04 - scenario 05 - optimization 02.sql
 
 	Summary:	Additional indexes may help to optimize the process.
 				Check the Query Store of ERP_Demo to identify bad or 

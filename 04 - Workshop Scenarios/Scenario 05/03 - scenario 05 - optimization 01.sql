@@ -1,6 +1,6 @@
 /*
 	============================================================================
-	File:		04 - scenario 06 - optimization 01.sql
+	File:		03 - scenario 05 - optimization 01.sql
 
 	Summary:	Every time the stored procedure is running we see a re-compilation.
 				DDL operations inside of a stored procedure needs a recompile every

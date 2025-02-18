@@ -58,7 +58,7 @@ BEGIN
 				FROM	dbo.orders AS o
 						LEFT JOIN dbo.lineitems AS l
 						ON (o.o_orderkey = l.l_orderkey)
-				WHERE	o.o_orderdate BETWEEN '2023-01-01' AND '2023-01-31'
+				WHERE	o.o_orderdate BETWEEN @date_from AND @date_to
 				GROUP BY
 						o.o_custkey,
 						o.o_orderdate,

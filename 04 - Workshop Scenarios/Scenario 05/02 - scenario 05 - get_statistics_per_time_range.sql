@@ -1,6 +1,6 @@
 /*
 	============================================================================
-	File:		02 - scenario 06 - dbo.get_statistics_per_time_range.sql
+	File:		02 - scenario 05 - dbo.get_statistics_per_time_range.sql
 
 	Summary:	This script creates the stored procedure for the daily statistics
 				for the management board.
@@ -9,7 +9,7 @@
 					"Performance optimization by identifying and correcting bad SQL code"
 
 	Date:		October 2024
-	Revion:		November 2024
+	Revion:		February 2025
 
 	SQL Server Version: >= 2016
 	------------------------------------------------------------------------------
@@ -49,6 +49,7 @@ BEGIN
 		c_num_orders	INT				NOT NULL	DEFAULT (0),
 		c_val_orders	NUMERIC(10, 2)	NOT NULL	DEFAULT (0)
 	);
+
 	ALTER TABLE #customer_stats ADD PRIMARY KEY CLUSTERED (c_custkey);
 
 	/*
@@ -56,14 +57,22 @@ BEGIN
 		an order in the given timeframe
 	*/
 	INSERT INTO #customer_stats
-	(c_custkey, c_nationkey)
-	SELECT	DISTINCT
-			c.c_custkey,
-			c.c_nationkey
+	(c_custkey, c_nationkey, c_num_orders)
+	SELECT	c.c_custkey,
+			c.c_nationkey,
+			COUNT_BIG(*)	AS	c_num_orders
 	FROM	dbo.customers AS c
-			INNER JOIN dbo.orders AS o
-			ON (c.c_custkey = o.o_custkey)
-	WHERE	o.o_orderdate BETWEEN @date_from AND @date_to;
+			CROSS APPLY
+			(
+				SELECT	TOP (3)
+						o_orderkey
+				FROM	dbo.orders AS o
+				WHERE	o.o_custkey = c.c_custkey
+						AND o.o_orderdate BETWEEN @date_from AND @date_to
+			) AS o
+	GROUP BY
+			c.c_custkey,
+			c.c_nationkey;
 
 	DECLARE	c CURSOR
 	FOR
@@ -139,5 +148,5 @@ BEGIN
 END
 GO
 
---ALTER DATABASE ERP_Demo SET QUERY_STORE CLEAR;
---GO
+ALTER DATABASE ERP_Demo SET QUERY_STORE CLEAR;
+GO

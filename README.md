@@ -30,7 +30,7 @@ Date:		2025-02-14
 # Folder structure
 + Each scenario is stored in a separate folder (e.g. Scenario 01 in Folder Scenario 01) in the Folder "04 - Workshop Scenarios"
 + All scripts have numbers and basically the script with the prefix 01 is for the preparation of the environment
-+ The folder **SQL ostress** contains .cmd files as substitute for SQL Query Stress.
++ The folder **SQL ostress** contains .cmd files as substitute for SQL Query Stress (when possible!).
    To use ostress you must download and install the **[RML Utilities](https://learn.microsoft.com/en-us/troubleshoot/sql/tools/replay-markup-language-utility)**
    
 + The folder **Windows Admin Center** contains json files with the configuration of performance counter. These files can only be used with Windows Admin Center
@@ -40,7 +40,7 @@ Date:		2025-02-14
   - [SQLQueryStress](https://github.com/ErikEJ/SqlQueryStress)
   - Before you can use the JSON templates make sure you replace the Machine Name / Instance Name with your Machine Name / Instance Name
 + The folder **SQL Extended Events** contains scripts for the implementation of extended events for the different scenarios
-  All extended events are written for "LIVE WATCHING" and will have target file for saving the results.
+  All extended events are written for "LIVE WATCHING" and will have no target file for saving the results.
 
 # Scenario 01
 The development team love to work with user definied functions (UDF).
@@ -76,5 +76,20 @@ promotions are started (e.g. Black Friday, fire sale, ...), the system's perform
 complain that it takes a long time for an order to be saved in the system.
 
 # Scenario 05
+A customer has major problems with relatively high CPU usage on the SQL Server. The DBA was able to identify a stored procedure that is called frequently.
+If the procedure is used very frequently, the CPU load on the system rises to over 90%. This behavior becomes critical when the procedure is called by several clients at the same time.
+
+The management board wants to have on a daily basis a report by region for
+the last three orders from any customer placed in a given time range.
+
+The development team created a stored procedure with two parameters:
+	@date_from	DATE
+	@date_to	DATE
+
+For that time range an analysis about the last 3 orders of each customer
+was made.
+
+Statistics show that this procedure is called approximately 500,000 times per hour!
+
 
 # Scenario 06

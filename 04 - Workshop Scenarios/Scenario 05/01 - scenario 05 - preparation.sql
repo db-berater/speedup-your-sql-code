@@ -1,24 +1,24 @@
 /*
 	============================================================================
-	File:		06 - scenario 01 - preparation.sql
+	File:		01 - scenario 05 - preparation.sql
 
-	Problemdescription:
+	Problem / Description:
 
 	The management board wants to have on a daily basis a report by region for
 	the last three orders from any customer placed in a given time range.
 
-	The development team created a stored procedure with two paramters:
+	The development team created a stored procedure with two parameters:
 		@date_from	DATE
 		@date_to	DATE
 
 	For that time range an analysis about the last 3 orders of each customer
 	was made.
 
-	THIS SCRIPT IS PART OF THE WORKSHOP:
-		"Performance optimization by identifying and correcting bad SQL code"
+				THIS SCRIPT IS PART OF THE WORKSHOP:
+					"Accelerate your SQL Code"
 
 	Date:		October 2024
-	Revion:		November 2024
+	Revion:		February 2025
 
 	SQL Server Version: >= 2016
 	------------------------------------------------------------------------------
@@ -33,21 +33,25 @@
 	PARTICULAR PURPOSE.
 	============================================================================
 */
+SET NOCOUNT ON;
+SET XACT_ABORT ON;
+GO
+
 USE ERP_Demo;
 GO
 
 /* Create all necessary indexes on the tables! */
-EXEC dbo.sp_create_indexes_customers;
-GO
-
-EXEC dbo.sp_create_indexes_orders;
-GO
-
-EXEC dbo.sp_create_indexes_lineitems;
+EXEC dbo.sp_create_indexes_regions;
 GO
 
 EXEC dbo.sp_create_indexes_nations;
 GO
 
-EXEC dbo.sp_create_indexes_regions;
+EXEC dbo.sp_create_indexes_customers;
+GO
+
+EXEC dbo.sp_create_indexes_orders @column_list = N'o_orderkey';
+GO
+
+EXEC dbo.sp_create_indexes_lineitems;
 GO

@@ -1,6 +1,6 @@
 /*
 	============================================================================
-	File:		07 - scenario 06 - optimization 04.sql
+	File:		06 - scenario 05 - optimization 04.sql
 
 	Summary:	Try to avoid multiple SELECT when you can achieve the result(s)
 				with one SELECT statment!
