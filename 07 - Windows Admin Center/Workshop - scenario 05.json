@@ -11,26 +11,6 @@
     "counters": 
     [
         {
-            "object": "Prozessor",
-            "instances": [
-                {
-                    "instanceName": "_Total"
-                }
-            ],
-            "counters": [
-                "Privilegierte Zeit (%)",
-                "Prozessorzeit (%)"
-            ],
-            "type": "Report"
-        },
-        {
-            "object": "System",
-            "counters": [
-                "Processor Queue Length"
-            ],
-            "type": "Line"
-        },
-        {
             "object": "MSSQL$SQL_2022:General Statistics",
             "counters":
             [

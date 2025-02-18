@@ -23,9 +23,9 @@
 			"Server":"SQLServer",
 			"TrustServerCertificate":true
 	},
-	"MainQuery":"EXEC dbo.get_statistics_per_time_range\r\n\t@date_from = '2023-01-01',\r\n\t@date_to = '2023-01-31';",
-	"NumIterations":100,
-	"NumThreads":4,
+	"MainQuery":"EXEC dbo.proc_recompile;",
+	"NumIterations":100000,
+	"NumThreads":12,
 	"ParamDbConnectionInfo":
 	{
 		"AdditionalParameters":"",

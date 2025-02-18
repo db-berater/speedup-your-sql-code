@@ -1,12 +1,11 @@
 /*
 	============================================================================
-	File:		01 - scenario 05 - preparation.sql
+	File:		02 - scenario 05 - optimization 01.sql
 
 	Problem / Description:
 
-	The development team created a stored procedure for any evaluation.
-	Due to performance issues they decided to work with temporary tables
-	to store data for further steps.
+	The first optimization will prevent recompilations when the temporary table
+	object does not have an meta data change outside of the table definition!
 
 	This procedure is called >100.000 / hr and is causing lots of CPU and
 	IO overload.
@@ -47,10 +46,7 @@ BEGIN
     SET NOCOUNT ON;
  
 	/* Create a temporary table for the storage of data */
-    CREATE TABLE #x (c_custkey BIGINT NOT NULL);
-
-	/* Add a primary key to the table */
-	ALTER TABLE #x ADD PRIMARY KEY CLUSTERED (c_custkey);
+    CREATE TABLE #x (c_custkey BIGINT NOT NULL PRIMARY KEY CLUSTERED);
      
     INSERT INTO #x (c_custkey)
     SELECT TOP (10) c_custkey FROM dbo.customers;
