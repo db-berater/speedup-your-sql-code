@@ -1,0 +1,56 @@
+{
+    "version": 1,
+    "workspace":
+    {
+        "name": "Workshop - Accelerate your SQL Code - Scenario 04",
+        "created": "2024-10-10T00:00:00.000Z",
+        "modified": "2024-11-24T00:00:00.000Z",
+        "timeRange": "FifteenMinutes",
+        "isCluster": false
+    },
+    "counters":
+	[
+        {
+            "object": "Processor",
+            "instances": [
+                {
+                    "instanceName": "_Total"
+                }
+            ],
+            "counters": [
+                "Processor Time (%)"
+            ],
+            "type": "Line"
+        },
+        {
+            "object": "MSSQL$SQL_2022:SQL Statistics",
+            "counters": [
+                "Batch Requests/sec"
+            ],
+            "type": "Line"
+        },
+        {
+            "object": "Logical Disk",
+            "instances":
+			[
+                {
+                    "instanceName": "T:"
+                }
+            ],
+            "counters":
+			[
+                "Bytes written/sec",
+                "Writes/sec"
+            ],
+            "type": "Line"
+        },
+        {
+            "object": "System",
+            "counters":
+            [
+                "Processor Queue Length"
+            ],
+            "type": "Line"
+        }
+    ]
+}

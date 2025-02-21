@@ -17,15 +17,17 @@
 USE master;
 GO
 
+:SETVAR	session_id	55
+
 IF EXISTS (SELECT * FROM sys.server_event_sessions WHERE name = N'Scenario 05 - Recompiliations')
 	DROP EVENT SESSION [Scenario 05 - Recompiliations] ON SERVER;
 	GO
 
 CREATE EVENT SESSION [Scenario 05 - Recompiliations] ON SERVER 
 ADD EVENT sqlserver.auto_stats,
-ADD EVENT sqlserver.sp_statement_starting (WHERE sqlserver.session_id = 55),
-ADD EVENT sqlserver.sql_statement_recompile (WHERE sqlserver.session_id = 55),
-ADD EVENT sqlserver.sql_statement_starting (WHERE sqlserver.session_id = 55)
+ADD EVENT sqlserver.sp_statement_starting (WHERE sqlserver.session_id = $(session_id)),
+ADD EVENT sqlserver.sql_statement_recompile (WHERE sqlserver.session_id = $(session_id)),
+ADD EVENT sqlserver.sql_statement_starting (WHERE sqlserver.session_id = $(session_id))
 WITH
 (
 	MAX_MEMORY=4096 KB,

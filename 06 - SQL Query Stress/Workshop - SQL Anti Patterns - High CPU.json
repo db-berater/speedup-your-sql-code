@@ -1,0 +1,51 @@
+{
+	"CollectIoStats":true,
+	"CollectTimeStats":true,
+	"CommandTimeout":0,
+	"ConnectionTimeout":15,
+	"DelayBetweenQueries":0,
+	"EnableConnectionPooling":true,
+	"ForceDataRetrieval":false,
+	"KillQueriesOnCancel":true,
+	"MainDbConnectionInfo":
+	{
+		"AdditionalParameters":"",
+		"ApplicationIntent":0,
+		"AzureMFA":false,
+		"ConnectTimeout":15,
+		"Database":"ERP_Demo",
+		"EnablePooling":true,
+		"EncryptOption":"True",
+		"IntegratedAuth":false,
+		"Login":"uricken",
+		"MaxPoolSize":2,
+		"Password":"test$1234",
+		"Server":"STACKIT",
+		"TrustServerCertificate":true
+	},
+	"MainQuery":"EXEC demo.get_customer_by_c_custkey\r\n\t@c_custkey = @c_custkey;",
+	"NumIterations":1000,"NumThreads":10,
+	"ParamDbConnectionInfo":
+	{
+		"AdditionalParameters":"",
+		"ApplicationIntent":0,
+		"AzureMFA":false,
+		"ConnectTimeout":0,
+		"Database":"",
+		"EnablePooling":true,
+		"EncryptOption":"False",
+		"IntegratedAuth":true,
+		"Login":"",
+		"MaxPoolSize":0,
+		"Password":"",
+		"Server":"(local)",
+		"TrustServerCertificate":false},
+		"ParamMappings":
+		[
+			{
+				"Key":"@c_custkey",
+				"Value":"c_custkey"}
+		],
+		"ParamQuery":"SELECT TOP (100) c_custkey FROM dbo.customers;",
+		"ShareDbSettings":true
+}

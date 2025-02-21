@@ -1,0 +1,65 @@
+{
+    "version": 1,
+    "workspace": {
+        "name": "Windows Admin Server Demo",
+        "created": "2024-11-09T00:00:00.000Z",
+        "modified": "2024-12-23T00:00:00.000Z",
+        "timeRange": "FifteenMinutes",
+        "isCluster": false
+    },
+    "counters": [
+        {
+            "object": "MSSQL$SQL_2022:Access Methods",
+            "counters": [
+                "Full Scans/sec",
+                "Index Searches/sec",
+                "Probe Scans/sec",
+                "Range Scans/sec",
+                "Workfiles Created/sec",
+                "Worktables Created/sec"
+            ],
+            "type": "Report"
+        },
+        {
+            "object": "MSSQL$SQL_2022:Databases",
+            "instances": [
+                {
+                    "instanceName": "ERP_Demo"
+                }
+            ],
+            "counters": [
+                "Transactions/sec",
+                "Write Transactions/sec"
+            ],
+            "type": "Line"
+        },
+        {
+            "object": "Logischer Datenträger",
+            "instances": [
+                {
+                    "instanceName": "F:"
+                },
+                {
+                    "instanceName": "L:"
+                },
+                {
+                    "instanceName": "T:"
+                }
+            ],
+            "counters": [
+                "Mittlere Sek./Schreibvorgänge",
+                "Mittlere Sek./Lesevorgänge",
+                "Mittlere Bytes/Schreibvorgang",
+                "Mittlere Bytes/Lesevorgang"
+            ],
+            "type": "Report"
+        },
+        {
+            "object": "System",
+            "counters": [
+                "Processor Queue Length"
+            ],
+            "type": "Line"
+        }
+    ]
+}

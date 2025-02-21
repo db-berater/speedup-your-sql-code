@@ -49,7 +49,7 @@ SELECT	[c_custkey],
 		[c_comment]
 FROM	demo.customers
 WHERE	ISNULL(c_phone, 'n.a.') = 'n.a.'
-OPTION	(QUERYTRACEON 9130);
+-- OPTION	(QUERYTRACEON 9130);
 GO
 
 /* Even a COALESCE will not help to optimize the query */
@@ -63,7 +63,7 @@ SELECT	[c_custkey],
 		[c_comment]
 FROM	demo.customers
 WHERE	COALESCE(c_phone, 'n.a.') = 'n.a.'
-OPTION	(QUERYTRACEON 9130);
+-- OPTION	(QUERYTRACEON 9130);
 GO
 
 /*
@@ -88,7 +88,7 @@ SELECT	[c_custkey],
 		[c_comment]
 FROM	demo.customers
 WHERE	ISNULL(c_phone, 'n.a.') = 'n.a.'
-OPTION	(QUERYTRACEON 9130);
+-- OPTION	(QUERYTRACEON 9130);
 GO
 
 /*
@@ -110,7 +110,7 @@ SELECT	[c_custkey],
 FROM	demo.customers
 WHERE	c_phone IS NULL
 		OR c_phone = 'n.a.'
-OPTION	(QUERYTRACEON 9130);
+-- OPTION	(QUERYTRACEON 9130);
 GO
 
 /*
@@ -129,7 +129,14 @@ WHERE	c_phone IS NULL
 
 UNION ALL
 
-SELECT	*
+SELECT	[c_custkey],
+		[c_mktsegment],
+		[c_nationkey],
+		[c_name],
+		[c_address],
+		[c_phone],
+		[c_acctbal],
+		[c_comment]
 FROM	demo.customers
 WHERE	c_phone = 'n.a.';
 GO
