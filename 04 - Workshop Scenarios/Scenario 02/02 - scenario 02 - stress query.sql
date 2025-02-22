@@ -6,7 +6,7 @@
 				of the execution.
 
 				THIS SCRIPT IS PART OF THE WORKSHOP:
-					"Performance optimization by identifying and correcting bad SQL code"
+					"Workshop - Accelerate your SQL Code"
 
 	Date:		October 2024
 	Revion:		November 2024
@@ -48,7 +48,7 @@ SET	@time_diff_ms = DATEDIFF(MILLISECOND, @start_time, @finish_time);
 	User counter 1:	runtime in ms
 	User counter 2:	number of rows deleted
 */
-dbcc setinstance('SQLServer:User Settable', 'Query', 'User counter 1', @time_diff_ms);
+DBCC setinstance('SQLServer:User Settable', 'Query', 'User counter 1', @time_diff_ms);
 dbcc setinstance('SQLServer:User Settable', 'Query', 'User counter 2', @return_value);
 
 INSERT INTO dbo.runtime_statistics

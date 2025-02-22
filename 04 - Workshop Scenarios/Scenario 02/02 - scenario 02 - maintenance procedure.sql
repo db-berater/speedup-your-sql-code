@@ -12,7 +12,7 @@
 				@maxlimit	=>	number of rows to delete from dbo.jobqueue
 
 				THIS SCRIPT IS PART OF THE WORKSHOP:
-					"Performance optimization by identifying and correcting bad SQL code"
+					"Workshop - Accelerate your SQL Code"
 
 	Date:		October 2024
 	Revion:		November 2024
@@ -83,7 +83,6 @@ BEGIN
 				SET	@rows_total = 1;
 			END CATCH
 
-			/* Step 1: We replace the second count by the previous value */
 			IF (SELECT COUNT(*) FROM dbo.jobqueue) = 0 AND @rows_total = 0
 			BEGIN
 				BEGIN TRY

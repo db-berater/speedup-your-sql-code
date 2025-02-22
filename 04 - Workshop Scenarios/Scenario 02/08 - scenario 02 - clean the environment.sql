@@ -6,7 +6,7 @@
 				have been used for the demos!
 
 				THIS SCRIPT IS PART OF THE WORKSHOP:
-					"Performance optimization by identifying and correcting bad SQL code"
+					"Workshop - Accelerate your SQL Code"
 
 	Date:		October 2024
 	Revion:		November 2024
