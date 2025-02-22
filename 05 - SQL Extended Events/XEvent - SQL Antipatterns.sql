@@ -7,7 +7,7 @@
                     of SQL Code.
 
 				    THIS SCRIPT IS PART OF THE WORKSHOP:
-					    "Workshop - Spped Up Your SQL Code"
+					    "Workshop - Speed Up Your SQL Code"
 
 	Date:		    October 2024
 	Revion:		    January 2025

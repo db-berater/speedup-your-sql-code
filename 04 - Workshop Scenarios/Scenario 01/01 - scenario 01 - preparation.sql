@@ -19,7 +19,7 @@
 				- bad code - usage of functions
 				
 				THIS SCRIPT IS PART OF THE WORKSHOP:
-					"Workshop - Making Bad Codes better"
+					"Workshop - Accelerate your SQL Code"
 
 	Date:		October 2024
 	Revion:		November 2024

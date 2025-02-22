@@ -7,7 +7,7 @@
 				collect - nearby - all necessary data!
 				
 				THIS SCRIPT IS PART OF THE WORKSHOP:
-					"Performance optimization by identifying and correcting bad SQL code"
+					"Workshop - Accelerate your SQL Code"
 
 	Date:		October 2024
 	Revion:		November 2024
@@ -51,7 +51,6 @@ RETURNS @t TABLE
 )
 BEGIN
 	DECLARE	@num_of_orders				INT;
-	DECLARE	@previous_classification	CHAR(1);
 
 	/*
 		IMPROVEMENT 01!

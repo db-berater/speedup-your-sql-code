@@ -11,7 +11,7 @@
 				- SQL Anti Patterns
 				
 				THIS SCRIPT IS PART OF THE WORKSHOP:
-					"Workshop - Spped Up Your SQL Code"
+					"Workshop - Accelerate your SQL Code"
 
 	Date:		October 2024
 	Revion:		January 2025

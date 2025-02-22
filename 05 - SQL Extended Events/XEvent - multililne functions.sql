@@ -16,7 +16,11 @@ ADD EVENT sqlserver.sp_statement_completed
 	WHERE
 	(
 		sqlserver.database_name =  N'ERP_Demo'
-		AND statement LIKE N'%Customer%'
+		AND
+		(
+			statement LIKE N'%Customer%'
+			OR statement LIKE N'%orders%'
+		)
 	)
 ),
 ADD EVENT sqlserver.sql_statement_completed
@@ -25,8 +29,12 @@ ADD EVENT sqlserver.sql_statement_completed
 	WHERE
 	(
 		sqlserver.database_name =  N'ERP_Demo'
-		AND statement LIKE N'%Customer%'
-	)
+		AND
+		(
+			statement LIKE N'%Customer%'
+			OR statement LIKE N'%orders%'
+		)
+)
 ),
 ADD EVENT sqlserver.sp_statement_starting
 (
@@ -34,7 +42,11 @@ ADD EVENT sqlserver.sp_statement_starting
 	WHERE
 	(
 		sqlserver.database_name =  N'ERP_Demo'
-		AND statement LIKE N'%Customer%'
+		AND
+		(
+			statement LIKE N'%Customer%'
+			OR statement LIKE N'%orders%'
+		)
 	)
 ),
 ADD EVENT sqlserver.sql_statement_starting
@@ -43,7 +55,11 @@ ADD EVENT sqlserver.sql_statement_starting
 	WHERE
 	(
 		sqlserver.database_name =  N'ERP_Demo'
-		AND statement LIKE N'%Customer%'
+		AND
+		(
+			statement LIKE N'%Customer%'
+			OR statement LIKE N'%orders%'
+		)
 	)
 )
 WITH

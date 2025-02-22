@@ -6,7 +6,7 @@
 				Follow the execution plan to see, how the queries are processed.
 				
 				THIS SCRIPT IS PART OF THE WORKSHOP:
-					"Workshop - Making Bad Codes better"
+					"Workshop - Accelerate your SQL Code"
 
 	Date:		October 2024
 	Revion:		November 2024
@@ -24,6 +24,11 @@
 	PARTICULAR PURPOSE.
 	============================================================================
 */
+SET NOCOUNT ON;
+SET XACT_ABORT ON;
+SET STATISTICS IO, TIME ON;
+GO
+
 USE ERP_Demo;
 GO
 

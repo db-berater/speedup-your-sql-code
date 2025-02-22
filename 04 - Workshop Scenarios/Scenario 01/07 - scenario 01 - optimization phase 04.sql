@@ -7,7 +7,7 @@
 				a better execution plan.
 				
 				THIS SCRIPT IS PART OF THE WORKSHOP:
-					"Performance optimization by identifying and correcting bad SQL code"
+					"Workshop - Accelerate your SQL Code"
 
 	Date:		October 2024
 	Revion:		November 2024
@@ -86,4 +86,10 @@ RETURN
 	FROM	l
 	WHERE	rn = 1
 );
+GO
+
+/*
+	We are clearing the query store to focus on the last problem - indexing!
+*/
+ALTER DATABASE ERP_Demo SET QUERY_STORE CLEAR;
 GO

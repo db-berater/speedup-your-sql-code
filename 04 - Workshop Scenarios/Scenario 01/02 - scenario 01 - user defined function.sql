@@ -11,24 +11,18 @@
 				| c_custkey | num_of_orders | classification |
 				
 				THIS SCRIPT IS PART OF THE WORKSHOP:
-					"Workshop - Making Bad Codes better"
+					"Workshop - Accelerate your SQL Code"
 
 	Date:		October 2024
 	Revion:		November 2024
 
 	SQL Server Version: >= 2016
-	------------------------------------------------------------------------------
-	Written by Uwe Ricken, db Berater GmbH
-
-	This script is intended only as a supplement to demos and lectures
-	given by Uwe Ricken.  
-  
-	THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF 
-	ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED 
-	TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A
-	PARTICULAR PURPOSE.
 	============================================================================
 */
+SET NOCOUNT ON;
+SET XACT_ABORT ON;
+GO
+
 USE ERP_Demo;
 GO
 
@@ -55,7 +49,6 @@ RETURNS @t TABLE
 )
 BEGIN
 	DECLARE	@num_of_orders				INT;
-	DECLARE	@previous_classification	CHAR(1);
 
 	/* Insert the c_custkey into the table variable */
 	INSERT INTO @t (c_custkey) VALUES (@c_custkey);

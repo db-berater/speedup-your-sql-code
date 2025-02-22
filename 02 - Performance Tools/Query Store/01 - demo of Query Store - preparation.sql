@@ -7,7 +7,7 @@
 				- Working with Query Store
 				
 				THIS SCRIPT IS PART OF THE WORKSHOP:
-					"Workshop - Making Bad Codes better"
+					"Workshop - Accelerate your SQL Code"
 
 	Date:		October 2024
 	Revion:		January 2025

@@ -8,13 +8,14 @@
 
 	Before you run the script you have to make sure that you...
 
-	-- run this script in SQLCMD modues
-	-- change the path definition in the SQLCMD variables
+	/*
+		run this script in SQLCMD modues
+		change the path definition in the SQLCMD variables
 
-	-- DataPath:	Path to the file location of database files
-	-- LogPath:		Path to the file location of the log files
-	-- BackupPath:	Path to the backup file which needs to be restored
-
+		DataPath:	Path to the file location of database files
+		LogPath:	Path to the file location of the log files
+		BackupPath:	Path to the backup file which needs to be restored
+	*/
 */
 -- Do not change this parameter!
 :SETVAR	DatabaseName	ERP_Demo
