@@ -37,13 +37,9 @@ EXEC dbo.sp_drop_foreign_keys @table_name = N'ALL';
 EXEC dbo.sp_drop_indexes @table_name = N'ALL', @check_only = 0;
 GO
 
-/* we deactivate the query store because we don't need it here */
-EXEC dbo.sp_deactivate_query_store;
-GO
-
 /*
-	We create a stored procedure which creates a stored procedure
-	for the checks in Windows Admin Center
+	We create a stored procedure which creates the workload
+	for the checks in Query Store!
 */
 CREATE OR ALTER PROCEDURE dbo.get_customer_info
 AS
