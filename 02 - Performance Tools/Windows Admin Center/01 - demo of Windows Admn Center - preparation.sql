@@ -59,7 +59,6 @@ BEGIN
 		- last order date
 		- number of orders
 	*/
-
 	SELECT	c.c_custkey			AS	customer_number,
 			c.c_name			AS	customer_name,
 			c.c_comment			AS	customer_comment,

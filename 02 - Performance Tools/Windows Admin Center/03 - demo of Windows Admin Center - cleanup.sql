@@ -43,12 +43,6 @@ EXEC dbo.sp_drop_indexes
     @check_only = 0;
 GO
 
-DROP TABLE IF EXISTS demo.regions;
-DROP TABLE IF EXISTS demo.nations;
-DROP TABLE IF EXISTS demo.orders;
-DROP TABLE IF EXISTS demo.customers;
-GO
-
 DROP PROCEDURE IF EXISTS dbo.get_customer_info;
 GO
 
