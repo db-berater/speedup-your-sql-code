@@ -66,8 +66,34 @@ SELECT	CAST(c_custkey AS VARCHAR(10))	AS	c_custkey,
 		c_acctbal,
 		c_comment
 INTO	demo.customers
+FROM	dbo.customers
+WHERE	1 = 0;
+GO
+
+ALTER TABLE demo.customers ALTER COLUMN c_custkey VARCHAR(10) NOT NULL;
+ALTER TABLE demo.customers ALTER COLUMN c_mktsegment NCHAR(10) NOT NULL;
+GO
+
+ALTER TABLE demo.customers ADD CONSTRAINT pk_demo_customers
+PRIMARY KEY CLUSTERED (c_custkey) WITH (SORT_IN_TEMPDB = ON, DATA_COMPRESSION = PAGE);;
+GO
+
+INSERT INTO demo.customers WITH (TABLOCK)
+(c_custkey, c_mktsegment, c_nationkey, c_name, c_address, c_phone, c_acctbal, c_comment)
+SELECT	CAST(c_custkey AS VARCHAR(10))	AS	c_custkey,
+		CAST(c_mktsegment AS NCHAR(10))	AS	c_mktsegment,
+		c_nationkey,
+		c_name,
+		c_address,
+		CASE WHEN c_custkey % 100000 = 0
+			 THEN NULL
+			 ELSE c_phone
+		END								AS	c_phone,
+		c_acctbal,
+		c_comment
 FROM	dbo.customers;
 GO
+
 
 RAISERROR ('Creating table demo.nations...', 0, 1) WITH NOWAIT;
 SELECT	[n_nationkey],
@@ -78,6 +104,10 @@ INTO	demo.nations
 FROM	dbo.nations;
 GO
 
+ALTER TABLE demo.nations ADD CONSTRAINT pk_demo_nations
+PRIMARY KEY CLUSTERED (n_nationkey) WITH (SORT_IN_TEMPDB = ON, DATA_COMPRESSION = PAGE);
+GO
+
 RAISERROR ('Creating table demo.regions...', 0, 1) WITH NOWAIT;
 SELECT	[r_regionkey],
 		[r_name],
@@ -85,6 +115,11 @@ SELECT	[r_regionkey],
 INTO	demo.regions
 FROM	dbo.regions;
 GO
+
+ALTER TABLE demo.regions ADD CONSTRAINT pk_demo_regions
+PRIMARY KEY CLUSTERED (r_regionkey) WITH (SORT_IN_TEMPDB = ON, DATA_COMPRESSION = PAGE);
+GO
+
 
 RAISERROR ('Creating table demo.orders...', 0, 1) WITH NOWAIT;
 SELECT	[o_orderdate],
@@ -103,40 +138,12 @@ WHERE	o_orderdate >= '2015-01-01'
 		AND o_orderdate < '2020-01-01';
 GO
 
-/* create required indexes for the new tables */
-RAISERROR ('Creating primary key on [demo].[customers]...', 0, 1) WITH NOWAIT;
-BEGIN TRANSACTION
-	ALTER TABLE demo.customers
-	ALTER COLUMN c_custkey VARCHAR(10) NOT NULL;
-	GO
-
-	ALTER TABLE demo.customers
-	ADD CONSTRAINT pk_demo_customers
-	PRIMARY KEY CLUSTERED (c_custkey)
-	WITH (SORT_IN_TEMPDB = ON, DATA_COMPRESSION = PAGE);
-	GO
-COMMIT TRANSACTION;
-GO
-
-RAISERROR ('Creating primary key on [demo].[nations]...', 0, 1) WITH NOWAIT;
-ALTER TABLE demo.nations
-ADD CONSTRAINT pk_demo_nations
-PRIMARY KEY CLUSTERED (n_nationkey)
-WITH (SORT_IN_TEMPDB = ON, DATA_COMPRESSION = PAGE);
-GO
-
-RAISERROR ('Creating primary key on [demo].[regions]...', 0, 1) WITH NOWAIT;
-ALTER TABLE demo.regions
-ADD CONSTRAINT pk_demo_regions
-PRIMARY KEY CLUSTERED (r_regionkey)
-WITH (SORT_IN_TEMPDB = ON, DATA_COMPRESSION = PAGE);
-GO
-
-RAISERROR ('Creating primary key on [demo].[orders]...', 0, 1) WITH NOWAIT;
 ALTER TABLE demo.orders
 ADD CONSTRAINT pk_demo_orders PRIMARY KEY CLUSTERED (o_orderkey)
 WITH (SORT_IN_TEMPDB = ON, DATA_COMPRESSION = PAGE);
 GO
 
-ALTER DATABASE ERP_Demo SET QUERY_STORE CLEAR;
+DECLARE	@return_value INT;
+EXEC @return_value = dbo.sp_clear_query_store;
+SELECT	@return_value;
 GO

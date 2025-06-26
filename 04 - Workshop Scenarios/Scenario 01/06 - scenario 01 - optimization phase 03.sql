@@ -51,13 +51,13 @@ BEGIN
 		if the customer does not have any orders in the specific year
 		we return the value "Z"
 	*/
-	DECLARE	@num_of_orders				INT;
+	DECLARE	@num_of_orders	BIGINT;
 
 	/*
 		IMPROVEMENT 03!
 		Remove of NONSARGable expression and exchange by a SARGable expression!
 	*/
-	SELECT	@num_of_orders = COUNT(*)
+	SELECT	@num_of_orders = COUNT_BIG(*)
 	FROM	dbo.orders
 	WHERE	o_custkey = @c_custkey
 			AND o_orderdate >= DATEFROMPARTS(@int_orderyear, 1, 1)

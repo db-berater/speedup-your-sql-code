@@ -18,7 +18,14 @@
                 "Workfiles Created/sec",
                 "Worktables Created/sec"
             ],
-            "type": "Report"
+            "type": "Line"
+        },
+        {
+            "object": "System",
+            "counters": [
+                "Processor Queue Length"
+            ],
+            "type": "Line"
         },
         {
             "object": "MSSQL$SQL_2022:Databases",
@@ -36,15 +43,9 @@
         {
             "object": "Logischer Datenträger",
             "instances": [
-                {
-                    "instanceName": "F:"
-                },
-                {
-                    "instanceName": "L:"
-                },
-                {
-                    "instanceName": "T:"
-                }
+                {"instanceName": "F:"},
+                {"instanceName": "L:"},
+                {"instanceName": "T:"}
             ],
             "counters": [
                 "Mittlere Sek./Schreibvorgänge",
@@ -53,13 +54,6 @@
                 "Mittlere Bytes/Lesevorgang"
             ],
             "type": "Report"
-        },
-        {
-            "object": "System",
-            "counters": [
-                "Processor Queue Length"
-            ],
-            "type": "Line"
         }
     ]
 }

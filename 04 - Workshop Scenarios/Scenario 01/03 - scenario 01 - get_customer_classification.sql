@@ -56,5 +56,8 @@ END
 GO
 
 /* Test */
+SET STATISTICS IO, TIME ON;
+GO
+
 EXEC dbo.get_customer_classification;
 GO
