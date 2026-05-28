@@ -6,6 +6,7 @@
 *.vsidx
 *.wsuo
 *.sqlite
+*.ssms_suo
 DocumentLayout*.json
 VSWorkspace*.json
 todo.txt
