@@ -4,7 +4,7 @@
 $directory = Get-Location
 
 # Define the search and replace strings
-$searchText = "NB-LENOVO-I\SQL_2022"
+$searchText = "NB-LENOVO-I\SQL_2025"
 $replaceText = "SQLServer"
 
 # Get all .json files in the directory and subdirectories

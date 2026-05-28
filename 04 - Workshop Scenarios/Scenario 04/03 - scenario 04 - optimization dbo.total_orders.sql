@@ -1,6 +1,6 @@
 /*
 	============================================================================
-	File:		03 - scenario 04 - optimizatino dbo.total_orders.sql
+	File:		03 - scenario 04 - optimization dbo.total_orders.sql
 
 	Summary:	The user defined function dbo.total_orders is using a
 				table variable which causes IO on tempdb!
