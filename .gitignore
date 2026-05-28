@@ -2,8 +2,10 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
+.vs/*
 *.vsidx
 *.wsuo
 *.sqlite
 DocumentLayout*.json
 VSWorkspace*.json
+todo.txt
