@@ -1,22 +1,28 @@
+:SETVAR	session_id	85
+
 IF EXISTS (SELECT * FROM sys.dm_xe_sessions WHERE name = N'scenario 04 - tracking single process')
 	DROP EVENT SESSION [scenario 04 - tracking single process] ON SERVER;
 	GO
 
+
 CREATE EVENT SESSION [scenario 04 - tracking single process]
-ON SERVER 
+ON SERVER
 	ADD EVENT sqlserver.sp_statement_completed
 	(
 		WHERE	sqlserver.is_system = 0
 				AND sqlserver.database_name = N'ERP_Demo'
+				AND sqlserver.session_id = $(session_id)
 	),
 	ADD EVENT sqlserver.sql_statement_completed
 	(
 		WHERE	sqlserver.is_system = 0
 				AND sqlserver.database_name = N'ERP_Demo'
+				AND sqlserver.session_id = $(session_id)
 	),
 	ADD EVENT sqlserver.database_xml_deadlock_report
 	(
 		WHERE database_name=N'ERP_Demo'
+		AND sqlserver.session_id = $(session_id)
 	)
 WITH
 (

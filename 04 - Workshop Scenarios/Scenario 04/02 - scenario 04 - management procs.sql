@@ -32,8 +32,10 @@ GO
 
 USE ERP_Demo;
 GO
+
 RAISERROR ('Creating stored procedure webshop.insert_order_record...', 0, 1) WITH NOWAIT;
 GO
+
 CREATE OR ALTER PROCEDURE webshop.insert_order_record
 AS
 BEGIN
@@ -59,21 +61,21 @@ BEGIN
 				o_comment,
 				o_storekey
 			)
-			SELECT	s.o_orderdate,
-					s.o_orderkey,
-					s.o_custkey,
-					s.o_orderpriority,
-					s.o_shippriority,
-					s.o_clerk,
+			SELECT	o.o_orderdate,
+					o.o_orderkey,
+					o.o_custkey,
+					o.o_orderpriority,
+					o.o_shippriority,
+					o.o_clerk,
 					'N'				AS	o_orderstatus,
-					s.o_totalprice,
-					s.o_comment,
-					s.o_storekey
-			FROM	dbo.orders AS s
+					o.o_totalprice,
+					o.o_comment,
+					o.o_storekey
+			FROM	dbo.orders AS o
 					LEFT JOIN webshop.orders AS t
 					ON
-					(s.o_orderkey = t.o_orderkey)
-			WHERE	s.o_orderkey = @o_orderkey
+					(o.o_orderkey = t.o_orderkey)
+			WHERE	o.o_orderkey = @o_orderkey
 					AND t.o_orderkey IS NULL;
 
 			INSERT INTO webshop.lineitems
@@ -118,10 +120,10 @@ BEGIN
 END
 GO
 
-RAISERROR ('Creating stored procedure webshop.move_order_record...', 0, 1) WITH NOWAIT;
+RAISERROR ('Creating stored procedure webshop.update_order_record...', 0, 1) WITH NOWAIT;
 GO
 
-ALTER   PROCEDURE [webshop].[move_order_record]
+CREATE OR ALTER PROCEDURE [webshop].[update_order_record]
 AS
 BEGIN
 	SET NOCOUNT ON;

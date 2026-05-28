@@ -55,7 +55,3 @@ GO
 EXEC dbo.sp_create_indexes_orders
 	@column_list = N'o_orderkey, o_custkey, o_orderdate';
 GO
-
-/*
-	We leave the indexes for the next scenario active!
-*/

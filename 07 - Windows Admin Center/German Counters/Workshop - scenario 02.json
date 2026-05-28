@@ -11,7 +11,7 @@
     "counters": 
     [
         {
-            "object": "MSSQL$SQL_2022:User Settable",
+            "object": "MSSQL$SQL_2025:User Settable",
             "instances":
 		    [
                 {"instanceName": "User counter 2"},

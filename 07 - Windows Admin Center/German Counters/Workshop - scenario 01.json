@@ -31,7 +31,7 @@
             "type": "Line"
         },
         {
-            "object": "MSSQL$SQL_2022:SQL Statistics",
+            "object": "MSSQL$SQL_2025:SQL Statistics",
             "counters":
 			[
                 "Batch Requests/sec"

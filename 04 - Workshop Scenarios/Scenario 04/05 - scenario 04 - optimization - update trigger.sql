@@ -39,7 +39,7 @@ GO
 SET STATISTICS IO, TIME ON;
 GO
 
-EXEC	webshop.move_order_record;
+EXEC	webshop.update_order_record;
 GO
 
 SET STATISTICS IO, TIME OFF;
@@ -86,7 +86,7 @@ GO
 SET STATISTICS IO, TIME ON;
 GO
 
-EXEC	webshop.move_order_record;
+EXEC	webshop.update_order_record;
 GO
 
 SET STATISTICS IO, TIME OFF;

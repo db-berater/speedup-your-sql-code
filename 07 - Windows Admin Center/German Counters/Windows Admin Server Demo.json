@@ -7,9 +7,10 @@
         "timeRange": "FifteenMinutes",
         "isCluster": false
     },
-    "counters": [
+    "counters": 
+    [
         {
-            "object": "MSSQL$SQL_2022:Access Methods",
+            "object": "MSSQL$SQL_2025:Access Methods",
             "counters": [
                 "Full Scans/sec",
                 "Index Searches/sec",
@@ -28,32 +29,16 @@
             "type": "Line"
         },
         {
-            "object": "MSSQL$SQL_2022:Databases",
+            "object": "MSSQL$SQL_2025:SQL Statistics",
             "instances": [
                 {
-                    "instanceName": "ERP_Demo"
+                    "instanceName": "Single"
                 }
             ],
             "counters": [
-                "Transactions/sec",
-                "Write Transactions/sec"
+                "Batch Requests/sec"
             ],
             "type": "Line"
-        },
-        {
-            "object": "Logischer Datenträger",
-            "instances": [
-                {"instanceName": "F:"},
-                {"instanceName": "L:"},
-                {"instanceName": "T:"}
-            ],
-            "counters": [
-                "Mittlere Sek./Schreibvorgänge",
-                "Mittlere Sek./Lesevorgänge",
-                "Mittlere Bytes/Schreibvorgang",
-                "Mittlere Bytes/Lesevorgang"
-            ],
-            "type": "Report"
         }
     ]
 }

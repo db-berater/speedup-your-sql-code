@@ -62,7 +62,11 @@ BEGIN
 	WHERE	o_custkey = @c_custkey
 			AND YEAR(o_orderdate) = @int_orderyear;
 
-	/* How many orders has the customer for the specific year */
+	/*
+		Instead of writing c_custkey and AFTERWARDS with a second write
+		the number of orders, we place both within ONE single write
+		operation
+	*/
 	INSERT INTO @t (c_custkey, num_of_orders)
 	VALUES (@c_custkey, @num_of_orders);
 

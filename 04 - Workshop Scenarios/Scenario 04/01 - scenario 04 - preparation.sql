@@ -158,6 +158,7 @@ GO
 /* A function is needed for the evaluation of the total num of orders for a customer */
 RAISERROR ('Creating function webshop.total_orders...', 0, 1) WITH NOWAIT;
 GO
+
 CREATE OR ALTER FUNCTION webshop.total_orders(@o_custkey BIGINT, @o_orderyear INT)
 RETURNS INT
 AS

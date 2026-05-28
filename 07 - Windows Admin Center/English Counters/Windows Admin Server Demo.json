@@ -9,7 +9,7 @@
     },
     "counters": [
         {
-            "object": "MSSQL$SQL_2022:Access Methods",
+            "object": "MSSQL$SQL_2025:Access Methods",
             "counters": [
                 "Full Scans/sec",
                 "Index Searches/sec",
@@ -21,43 +21,21 @@
             "type": "Report"
         },
         {
-            "object": "MSSQL$SQL_2022:Databases",
-            "instances": [
-                {
-                    "instanceName": "ERP_Demo"
-                }
-            ],
+            "object": "System",
             "counters": [
-                "Transactions/sec",
-                "Write Transactions/sec"
+                "Processor Queue Length"
             ],
             "type": "Line"
         },
         {
-            "object": "Logical Disc",
+            "object": "MSSQL$SQL_2025:SQL Statistics",
             "instances": [
                 {
-                    "instanceName": "F:"
-                },
-                {
-                    "instanceName": "L:"
-                },
-                {
-                    "instanceName": "T:"
+                    "instanceName": "Single"
                 }
             ],
             "counters": [
-                "Average sec/Write",
-                "Average sec/Read",
-                "Avg Bytes/Write",
-                "Avg Bytes/Read"
-            ],
-            "type": "Report"
-        },
-        {
-            "object": "System",
-            "counters": [
-                "Processor Queue Length"
+                "Batch Requests/sec"
             ],
             "type": "Line"
         }

@@ -18,13 +18,14 @@
 		"EncryptOption":"False",
 		"IntegratedAuth":true,
 		"Login":"",
-		"MaxPoolSize":2,
+		"MaxPoolSize":4,
 		"Password":"",
 		"Server":"SQLServer",
 		"TrustServerCertificate":true
 	},
 	"MainQuery":"EXEC dbo.get_customer_info @c_custkey = @c_custkey;",
-	"NumIterations":10,"NumThreads":4,
+	"NumIterations":10,
+	"NumThreads":4,
 	"ParamDbConnectionInfo":
 	{
 		"AdditionalParameters":"",

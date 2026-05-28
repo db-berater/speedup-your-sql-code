@@ -2,8 +2,7 @@
 	============================================================================
 	File:		02 - scenario 03 - new indexes.sql
 
-	Summary:	This script creates the original query which should be fired
-				10.000 times in a minute!
+	Summary:	This script creates additional indexes which might help?!
 				
 				Use https://statisticsparser.com to analyze the usage of resources!
 

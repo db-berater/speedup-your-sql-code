@@ -90,6 +90,3 @@ For that time range an analysis about the last 3 orders of each customer
 was made.
 
 Statistics show that this procedure is called approximately 500,000 times per hour!
-
-
-# Scenario 06
