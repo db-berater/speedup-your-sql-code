@@ -1,6 +1,6 @@
 /*
 	============================================================================
-	File:		02 - scenario 03 - new indexes.sql
+	File:		03 - scenario 03 - new indexes.sql
 
 	Summary:	This script creates additional indexes which might help?!
 				

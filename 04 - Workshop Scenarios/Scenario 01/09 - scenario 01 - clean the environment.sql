@@ -39,11 +39,11 @@ GO
 EXEC dbo.sp_drop_foreign_keys @table_name = N'ALL';
 GO
 
-EXEC dbo.sp_drop_indexes @table_name = N'dbo.orders',		@check_only = 0;
-EXEC dbo.sp_drop_indexes @table_name = N'dbo.customers',	@check_only = 0;
+EXEC dbo.sp_drop_indexes @table_name = N'dbo.orders', @check_only = 0;
+EXEC dbo.sp_drop_indexes @table_name = N'dbo.customers', @check_only = 0;
 GO
 
 /* Remove extended events used for this demo */
 IF EXISTS (SELECT * FROM sys.server_event_sessions WHERE name = N'Track UDFs')
-	DROP EVENT SESSION [Track Scalar Functions] ON SERVER;
+	DROP EVENT SESSION [Track UDFs] ON SERVER;
 GO

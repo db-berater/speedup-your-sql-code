@@ -1,8 +1,8 @@
 /*
 	============================================================================
-	File:		02 - scenario 03 - proc stress_test_03 - original.sql
+	File:		02 - scenario 03 - dbo.stress_query - original.sql
 
-	Summary:	This script creates the original query which should be fired
+	Summary:		This script creates the original query which should be fired
 				10.000 times in a minute!
 				
 				Use https://statisticsparser.com to analyze the usage of resources!
@@ -41,7 +41,7 @@ USE ERP_Demo;
 GO
 
 CREATE OR ALTER PROCEDURE dbo.stress_query
-	@uid_sapuser	VARCHAR(38)
+	@uid_sapuser		VARCHAR(38)
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -51,15 +51,15 @@ BEGIN
 			uid_person,
 			centralaccount,
 			xmarkedfordeletion
-	FROM	dbo.persons
+	FROM		dbo.persons
 	WHERE	(
 				uid_person IN
 				(
 					SELECT	p.uid_person
-					FROM	(
+					FROM		(
 								SELECT	a.accnt AS c1,
 										a.accnt AS c2
-								FROM	dbo.sapusers AS a
+								FROM		dbo.sapusers AS a
 								WHERE	uid_sapuser = @uid_sapuser
 							) AS x
 							INNER JOIN dbo.persons AS p

@@ -48,11 +48,11 @@ BEGIN
 
 	/* Declaration of variables for the execution */
 	DECLARE	@items			AS	dbo.helpertable;
-	DECLARE	@itemportion	AS	dbo.helpertable;
+	DECLARE	@itemportion		AS	dbo.helpertable;
 
 	DECLARE @rows_per_batch		INT;
 	DECLARE @run_delete			INT = 0;
-	DECLARE @num_deletes		INT;
+	DECLARE @num_deletes			INT;
 	DECLARE @num_deletes_total	INT = 0;
 	DECLARE @start_time			DATETIME;
 	DECLARE @end_time			DATETIME;
@@ -77,7 +77,7 @@ BEGIN
 			BEGIN TRY
 				UPDATE	dbo.jobqueue
 				SET		Generation = q.Generation
-				FROM	dbo.jobqueue AS q WITH (TABLOCKX);
+				FROM		dbo.jobqueue AS q WITH (TABLOCKX);
 			END TRY
 			BEGIN CATCH
 				SET	@rows_total = 1;
@@ -110,7 +110,7 @@ normal:
 		INSERT INTO @Items (singleguid)
 		SELECT	TOP (@maxlimit)
 				qt.uid_jobqueue
-		FROM	dbo.jobqueue AS qt WITH (READPAST)
+		FROM		dbo.jobqueue AS qt WITH (READPAST)
 		WHERE	generation = -1;
 
 		SET	@run_delete = 1;
@@ -125,7 +125,7 @@ normal:
 			INSERT INTO @ItemPortion (singleguid)
 			SELECT TOP (@rows_per_batch)
 					t.singleguid
-			FROM	@Items t
+			FROM		@Items t
 			WHERE	t.BitProperty = 0;
 
 			SET		@run_delete = @@ROWCOUNT;
@@ -135,7 +135,7 @@ normal:
 
 			UPDATE	@Items
 			SET		BitProperty = 1
-			FROM	@Items AS t
+			FROM		@Items AS t
 					INNER JOIN @ItemPortion AS p
 					ON (t.singleguid = p.singleguid)
 
@@ -143,8 +143,8 @@ normal:
 				DELETE	dbo.jobqueue
 				WHERE	uid_jobqueue IN
 						(
-							SELECT t.singleguid
-							FROM @ItemPortion t
+							SELECT	t.singleguid
+							FROM		@ItemPortion t
 						);
 
 				SET		@num_deletes = @@ROWCOUNT;

@@ -1,8 +1,8 @@
 /*
 	============================================================================
-	File:		06 - scenario 02 - optimization 04.sql
+	File:		07 - scenario 02 - optimization 04.sql
 
-	Summary:	The deletion process covers lots of indexes.
+	Summary:		The deletion process covers lots of indexes.
 				It is important to check how the indexes get used.
 				It might be useful to delete unnecessary indexes!
 				

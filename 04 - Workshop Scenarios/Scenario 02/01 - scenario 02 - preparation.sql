@@ -63,11 +63,11 @@ GO
 RAISERROR ('Creating table dbo.runtime_statistics', 0, 1) WITH NOWAIT;
 CREATE TABLE dbo.runtime_statistics
 (
-	id			INT				NOT NULL	IDENTITY (1, 1)	PRIMARY KEY CLUSTERED,
+	id			INT				NOT NULL		IDENTITY (1, 1)	PRIMARY KEY CLUSTERED,
 	action_name	VARCHAR(64)		NOT NULL,
-	num_rows	BIGINT			NOT NULL,
-	start_date	DATETIME2(7)	NOT NULL,
-	finish_date	DATETIME2(7)	NOT NULL,
+	num_rows		BIGINT			NOT NULL,
+	start_date	DATETIME2(7)		NOT NULL,
+	finish_date	DATETIME2(7)		NOT NULL,
 	diff_ms	AS	DATEDIFF(MILLISECOND, start_date, finish_date)
 );
 GO
@@ -75,14 +75,14 @@ GO
 RAISERROR ('Creating table dbo.jobqueue', 0, 1) WITH NOWAIT;
 CREATE TABLE dbo.jobqueue
 (
-	uid_jobqueue	VARCHAR(38) NOT NULL,
-	uid_task		VARCHAR(38) NULL,
+	uid_jobqueue		VARCHAR(38) NOT NULL,
+	uid_task			VARCHAR(38) NULL,
 	objectname		VARCHAR(38) NULL,
 	subobjectname	VARCHAR(38) NULL,
-	sortorder		INT			NOT NULL	CONSTRAINT df_jobqueue_sortorder DEFAULT (0),
+	sortorder		INT			NOT NULL		CONSTRAINT df_jobqueue_sortorder DEFAULT (0),
 	istouched		NCHAR(1)	NULL,
 	genprocid		VARCHAR(38) NOT NULL,
-	generation		INT NULL				CONSTRAINT df_jobqueue_generation DEFAULT (0),
+	generation		INT NULL					CONSTRAINT df_jobqueue_generation DEFAULT (0),
 
 	CONSTRAINT pk_jobqueue PRIMARY KEY NONCLUSTERED 
 	(uid_jobqueue ASC)
@@ -94,12 +94,12 @@ RAISERROR ('Filling dbo.jobqueue with 5,000,000 rows', 0, 1) WITH NOWAIT;
 INSERT INTO dbo.jobqueue WITH (TABLOCK)
 (uid_jobqueue, sortorder, istouched, genprocid, generation)
 SELECT	TOP (5000000)
-		CAST(NEWID() AS VARCHAR(38))	AS	uid_jobqueue,
+		CAST(NEWID() AS VARCHAR(38))		AS	uid_jobqueue,
 		CAST(1 AS INT)					AS	sortorder,
-		N'1'							AS	istouched,
-		CAST(NEWID() AS VARCHAR(38))	AS	genprocid,
+		N'1'								AS	istouched,
+		CAST(NEWID() AS VARCHAR(38))		AS	genprocid,
 		-1								AS	generation
-FROM	dbo.orders;
+FROM		dbo.orders;
 GO
 
 RAISERROR ('creating additional indexes on dbo.jobqueue', 0, 1) WITH NOWAIT;
@@ -109,6 +109,10 @@ INCLUDE
 	generation,
 	uid_task,
 	genprocid
+)
+WITH
+(
+	SORT_IN_TEMPDB = ON
 );
 GO
 
@@ -118,6 +122,10 @@ INCLUDE
 	generation,
 	uid_task,
 	sortorder
+)
+WITH
+(
+	SORT_IN_TEMPDB = ON
 );
 GO
 
@@ -132,6 +140,10 @@ INCLUDE
 (
 	uid_jobqueue,
 	objectname
+)
+WITH
+(
+	SORT_IN_TEMPDB = ON
 );
 GO
 
@@ -145,6 +157,10 @@ INCLUDE
 	Generation,
 	GenProcID,
 	subobjectname
+)
+WITH
+(
+	SORT_IN_TEMPDB = ON
 );
 GO
 

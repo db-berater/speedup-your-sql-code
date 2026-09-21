@@ -44,12 +44,12 @@ BEGIN
 			uid_person,
 			centralaccount,
 			xmarkedfordeletion
-	FROM	dbo.persons
+	FROM		dbo.persons
 	WHERE	(
 				uid_person IN
 				(
 					SELECT	p.uid_person
-					FROM	dbo.persons AS p
+					FROM		dbo.persons AS p
 							INNER JOIN dbo.sapusers AS a
 							ON
 							(p.CentralSAPAccount = a.accnt)
@@ -58,7 +58,7 @@ BEGIN
 					UNION ALL
 
 					SELECT	p.uid_person
-					FROM	dbo.persons AS p
+					FROM		dbo.persons AS p
 							INNER JOIN dbo.sapusers AS a
 							ON
 							(p.CCC_AliasName = a.accnt)

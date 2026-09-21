@@ -2,9 +2,9 @@
 	============================================================================
 	File:		01 - scenario 03 - preparation of environment.sql
 
-	Summary:	This script creates the environment for the scenario.
+	Summary:		This script creates the environment for the scenario.
 				- table:	dbo.persons		(~1.6 Mio records)
-				- table:	dbo.sapusers	(~6.5 Mio records)
+				- table:	dbo.sapusers		(~6.5 Mio records)
 				- create all necessary indexes
 				- create a stored procedure to be executed
 
@@ -88,13 +88,13 @@ CREATE TABLE dbo.sapusers
 );
 GO
 
-RAISERROR ('filling table [dbo].[sapusers] with 6.607.958 Mio rows...', 0, 1) WITH NOWAIT;
+RAISERROR ('filling table [dbo].[sapusers] with 5.000.000 Mio rows...', 0, 1) WITH NOWAIT;
 INSERT INTO dbo.sapusers WITH (TABLOCK)
 (uid_sapuser, uid_person, accnt)
 SELECT	CAST(NEWID() AS VARCHAR(38))	AS	uid_sapuser,
 		p.uid_person,
 		p.uid_person
-FROM	dbo.persons AS p
+FROM		dbo.persons AS p
 GO
 
 INSERT INTO dbo.sapusers WITH (TABLOCK)
@@ -103,7 +103,7 @@ SELECT	TOP (5000000)
 		NEWID()		AS	uid_sapuser,
 		NULL,
 		NULL
-FROM	dbo.orders;
+FROM		dbo.orders;
 GO
 
 RAISERROR ('updating a few rows in [dbo].[sapusers]...', 0, 1) WITH NOWAIT;

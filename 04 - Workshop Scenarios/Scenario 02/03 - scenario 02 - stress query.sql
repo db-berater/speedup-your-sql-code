@@ -1,6 +1,6 @@
 /*
 	============================================================================
-	File:		02 - scenario 02 - stress query.sql
+	File:		03 - scenario 02 - stress query.sql
 
 	Summary:	This script execute the given stored procedure and tracks the runtime
 				of the execution.
@@ -32,7 +32,7 @@ USE ERP_Demo;
 GO
 
 DECLARE	@return_value	INT;
-DECLARE	@finish_time	DATETIME2(7);
+DECLARE	@finish_time		DATETIME2(7);
 DECLARE	@time_diff_ms	INT;
 DECLARE	@start_time		DATETIME2(7) = SYSDATETIME();
 
@@ -59,4 +59,6 @@ SELECT	'runtime of process'	AS	action_name,
 		@finish_time			AS	finish_time;
 GO
 
-SELECT * FROM dbo.runtime_statistics;
+SELECT	*
+FROM		dbo.runtime_statistics;
+GO

@@ -1,12 +1,12 @@
 /*
 	============================================================================
-	File:		07 - scenario 02 - optimization 05.sql
+	File:		08 - scenario 02 - optimization 05.sql
 
-	Summary:	The process cannot scale when the process will work with multiple
+	Summary:		The process cannot scale when the process will work with multiple
 				threads. To avoid this we use the following technics:
 				- partitioning	(1 partition for each process / max 10)
-					- dbo.used_partition:	session stores the aquired partition
-					- dbo.session_values:	uid_jobqueue values for deletion / partition
+				- dbo.used_partition:	session stores the aquired partition
+				- dbo.session_values:	uid_jobqueue values for deletion / partition
 
 				THIS SCRIPT IS PART OF THE WORKSHOP:
 					"Workshop - Accelerate your SQL Code"
@@ -102,7 +102,7 @@ SELECT	[schema.table],
 		[Index ID],
 		rows,
 		[partition #]
-FROM	dbo.get_partition_layout_info(N'dbo.jobqueue', 1);
+FROM		dbo.get_partition_layout_info(N'dbo.jobqueue', 1);
 GO
 
 /*
@@ -225,7 +225,4 @@ BEGIN
 
 	RETURN @rows_deleted_total;
 END
-GO
-
-ALTER DATABASE ERP_Demo SET QUERY_STORE CLEAR;
 GO

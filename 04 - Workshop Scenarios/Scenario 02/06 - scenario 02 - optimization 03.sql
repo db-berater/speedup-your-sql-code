@@ -1,8 +1,8 @@
 /*
 	============================================================================
-	File:		05 - scenario 02 - optimization 03.sql
+	File:		06 - scenario 02 - optimization 03.sql
 
-	Summary:	This script is the final version of an optimized processing for
+	Summary:		This script is the final version of an optimized processing for
 				batch operations in a big table.
 
 				We can completely ignore the work with table objects and run the
@@ -30,12 +30,12 @@ BEGIN
 	SET XACT_ABORT ON;
 
 	/* Declaration of variables for the execution */
-	DECLARE	@rows_deleted_actual	INT = 1;
+	DECLARE	@rows_deleted_actual		INT = 1;
 	DECLARE @rows_deleted_total		INT = 0;
 
-	DECLARE	@error_message		NVARCHAR(2024);
-	DECLARE	@error_number		INT;
-	DECLARE	@error_line			INT;
+	DECLARE	@error_message			NVARCHAR(2024);
+	DECLARE	@error_number			INT;
+	DECLARE	@error_line				INT;
 
 	BEGIN TRY
 		/*
@@ -46,7 +46,7 @@ BEGIN
 		WHILE (@rows_deleted_actual) > 0 AND @rows_deleted_total < @maxlimit
 		BEGIN
 			DELETE	TOP (@rowlimit)
-			FROM	dbo.jobqueue
+			FROM		dbo.jobqueue
 			WHERE	Generation = -1;
 
 			SET	@rows_deleted_actual = @@ROWCOUNT;

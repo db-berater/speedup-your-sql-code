@@ -1,8 +1,8 @@
 /*
 	============================================================================
-	File:		03 - scenario 02 - optimization 01.sql
+	File:		04 - scenario 02 - optimization 01.sql
 
-	Summary:	This script is the first step to optimize the workload for the
+	Summary:		This script is the first step to optimize the workload for the
 				deletion of data from a job queue table!
 
 				The developer is using SELECT COUNT for checking if records exists.
@@ -56,7 +56,7 @@ BEGIN TRY
 	IF EXISTS (SELECT * FROM dbo.jobqueue)
 		SET	@rows_total = 1
 	ELSE
-		IF @rows_total > 0
+		SET @rows_total = 0
 
 	IF @rows_total = 0	AND @@TRANCOUNT = 0
 	BEGIN
@@ -71,7 +71,7 @@ BEGIN TRY
 		END CATCH
 
 		/* Step 1: We replace the second count by the previous value */
-		IF (SELECT COUNT(*) FROM dbo.jobqueue) = 0 AND @rows_total = 0
+		IF NOT EXISTS (SELECT * FROM dbo.jobqueue) AND @rows_total = 0
 		BEGIN
 			BEGIN TRY
 				TRUNCATE TABLE dbo.jobqueue;
@@ -167,7 +167,4 @@ END CATCH
 endLabel:
 	RETURN (@num_deletes_total);
 END
-GO
-
-ALTER DATABASE ERP_Demo SET QUERY_STORE CLEAR;
 GO

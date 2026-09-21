@@ -1,6 +1,6 @@
 /*
 	============================================================================
-	File:		04 - scenario 02 - optimization 02.sql
+	File:		05 - scenario 02 - optimization 02.sql
 
 	Summary:	This script is the first step to optimize the workload for the
 				deletion of data from a job queue table!
@@ -57,7 +57,7 @@ BEGIN TRY
 		INSERT INTO @Items (singleguid)
 		SELECT TOP (@maxlimit)
 				qt.uid_jobqueue
-		FROM	dbo.jobqueue AS qt WITH (READPAST)
+		FROM		dbo.jobqueue AS qt WITH (READPAST)
 		WHERE	Generation = -1;
 
 		/* Than we record the number of records we've inserted */
@@ -74,7 +74,7 @@ BEGIN TRY
 			INSERT INTO @ItemPortion(singleguid)
 			SELECT TOP (@rows_per_batch)
 					t.singleguid
-			FROM	@Items t
+			FROM		@Items t
 			WHERE	t.BitProperty = 0;
 
 			SET		@LaufDelete = @@ROWCOUNT;
@@ -85,7 +85,7 @@ BEGIN TRY
 			/* now we mark processed records */
 			UPDATE	@Items
 			SET		BitProperty = 1
-			FROM	@Items AS t
+			FROM		@Items AS t
 					INNER JOIN @ItemPortion AS p
 					ON (t.singleguid = p.singleguid)
 
@@ -119,7 +119,4 @@ END CATCH
 endLabel:
 	RETURN @AnzahlLoeschGesamt;
 END
-GO
-
-ALTER DATABASE ERP_Demo SET QUERY_STORE CLEAR;
 GO
