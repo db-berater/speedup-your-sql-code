@@ -39,7 +39,7 @@ GO
 SET STATISTICS IO, TIME ON;
 GO
 
-EXEC	webshop.update_order_record;
+EXEC		webshop.update_order_record;
 GO
 
 SET STATISTICS IO, TIME OFF;
@@ -58,36 +58,61 @@ BEGIN
 		Orders have an ascending key for the o_orderdate.
 		There will be no orders inserted for the past!
 	*/
-	WITH s
+	WITH i
 	AS
 	(
 		SELECT	o.o_custkey,
-				COUNT_BIG(*)	AS	num_of_orders
-		FROM	webshop.orders AS o
-				INNER JOIN inserted AS i
-				ON (o.o_custkey = i.o_custkey)
-		WHERE	o.o_orderdate >= DATEFROMPARTS(YEAR(i.o_orderdate), 1, 1)
-				AND o.o_orderdate < DATEFROMPARTS(YEAR(i.o_orderdate) + 1, 1, 1)
+				COUNT_BIG(*)		AS	num_of_orders
+		FROM		webshop.orders AS o
+				INNER JOIN
+				(
+					SELECT	o_custkey,
+							o_orderdate
+					FROM		inserted AS i
+
+					UNION ALL
+
+					SELECT	o_custkey,
+							o_orderdate
+					FROM		deleted AS d
+				) AS c
+				ON (o.o_custkey = c.o_custkey)
+		WHERE	o.o_orderdate >= DATEFROMPARTS(YEAR(c.o_orderdate), 1, 1)
+				AND o.o_orderdate < DATEFROMPARTS(YEAR(c.o_orderdate) + 1, 1, 1)
 		GROUP BY
 				o.o_custkey
 	)
 	UPDATE	c
-	SET		num_orders = s.num_of_orders
-	FROM	webshop.customers AS c
-			INNER JOIN s
-			ON (c.c_custkey = s.o_custkey);
+	SET		num_orders = i.num_of_orders
+	FROM		webshop.customers AS c
+			INNER JOIN i
+			ON (c.c_custkey = i.o_custkey);
 END
 GO
 
+SELECT	*
+FROM		webshop.orders
+WHERE	o_custkey IN (17227, 17738)
 
+UPDATE	webshop.orders
+SET		o_custkey = 17738
+WHERE	o_orderkey = 25511211;
+
+SELECT	*
+FROM		webshop.customers
+WHERE	c_custkey = 17738;
 /*
 	Let's run one demo move from only 1 record again!
 */
 SET STATISTICS IO, TIME ON;
 GO
 
-EXEC	webshop.update_order_record;
+EXEC	 webshop.update_order_record;
 GO
 
 SET STATISTICS IO, TIME OFF;
 GO
+
+SELECT	*
+FROM		webshop.customers
+WHERE	num_orders > 0

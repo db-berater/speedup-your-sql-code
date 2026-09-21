@@ -43,7 +43,7 @@ BEGIN
 							makes the attribute (index) sargable!
 	*/
 	SELECT	@return_value = COUNT_BIG(*)
-	FROM	webshop.orders
+	FROM		webshop.orders
 	WHERE	o_custkey = @o_custkey
 			AND o_orderdate >= DATEFROMPARTS(@o_orderyear, 1, 1)
 			AND o_orderdate < DATEFROMPARTS(@o_orderyear + 1, 1, 1)

@@ -33,6 +33,16 @@ GO
 USE ERP_Demo;
 GO
 
+BEGIN
+	DELETE	webshop.lineitems;
+	DELETE	webshop.orders;
+END
+GO
+
+/* Reset of the query store */
+ALTER DATABASE ERP_Demo SET QUERY_STORE CLEAR;
+GO
+
 /*
 	Let's run the insert of 10,000 rows and check the IO and CPU
 */
@@ -48,14 +58,13 @@ AS
 )
 INSERT INTO webshop.orders WITH (TABLOCK)
 SELECT	o.*
-FROM	dbo.orders AS o
+FROM		dbo.orders AS o
 		INNER JOIN i
 		ON (o.o_orderkey = i.o_orderkey);
 GO
 
 SET STATISTICS IO, TIME OFF;
 GO
-
 
 USE ERP_Demo;
 GO
@@ -77,15 +86,17 @@ BEGIN
 	(
 		SELECT	o.o_custkey,
 				COUNT_BIG(*)	AS	num_of_orders
-		FROM	webshop.orders AS o
+		FROM		webshop.orders AS o
 				INNER JOIN inserted AS i
 				ON (o.o_custkey = i.o_custkey)
 		WHERE	o.o_orderdate >= DATEFROMPARTS(YEAR(i.o_orderdate), 1, 1)
 				AND o.o_orderdate < DATEFROMPARTS(YEAR(i.o_orderdate) + 1, 1, 1)
+		GROUP BY
+				o.o_custkey
 	)
 	UPDATE	c
 	SET		num_orders = s.num_of_orders
-	FROM	webshop.customers AS c
+	FROM		webshop.customers AS c
 			INNER JOIN s
 			ON (c.c_custkey = s.o_custkey);
 END
@@ -94,6 +105,10 @@ GO
 /*
 	We rerun the test with 10.000 records...
 */
+/* Reset of the query store */
+ALTER DATABASE ERP_Demo SET QUERY_STORE CLEAR;
+GO
+
 SET STATISTICS IO, TIME ON;
 GO
 
@@ -106,14 +121,10 @@ AS
 )
 INSERT INTO webshop.orders WITH (TABLOCK)
 SELECT	o.*
-FROM	dbo.orders AS o
+FROM		dbo.orders AS o
 		INNER JOIN i
 		ON (o.o_orderkey = i.o_orderkey);
 GO
 
 SET STATISTICS IO, TIME OFF;
-GO
-
-/* Reset of the query store */
-ALTER DATABASE ERP_Demo SET QUERY_STORE CLEAR;
 GO

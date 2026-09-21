@@ -25,7 +25,7 @@
 	},
 	"MainQuery":"EXEC webshop.insert_order_record;",
 	"NumIterations":1000,
-	"NumThreads":100,
+	"NumThreads":10,
 	"ParamDbConnectionInfo":
 	{
 		"AdditionalParameters":"",

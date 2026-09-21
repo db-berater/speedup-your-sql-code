@@ -2,7 +2,7 @@
 	============================================================================
 	File:		01 - scenario 04 - preparation.sql
 
-	Summary:	A customer's webshop runs without any complaints from customers during "normal" days.
+	Summary:		A customer's webshop runs without any complaints from customers during "normal" days.
 				As soon as special sales promotions are started (e.g. Black Friday, fire sale, ...),
 				the system's performance collapses and customers complain that it takes
 				a long time for an order to be saved in the system.
@@ -23,16 +23,6 @@
 	Revion:		February 2025
 
 	SQL Server Version: >= 2016
-	------------------------------------------------------------------------------
-	Written by Uwe Ricken, db Berater GmbH
-
-	This script is intended only as a supplement to demos and lectures
-	given by Uwe Ricken.  
-  
-	THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF 
-	ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED 
-	TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A
-	PARTICULAR PURPOSE.
 	============================================================================
 */
 SET NOCOUNT ON;
@@ -45,15 +35,22 @@ GO
 SET NOCOUNT ON;
 GO
 
-EXEC dbo.sp_create_indexes_customers;
-EXEC dbo.sp_create_indexes_orders @column_list = N'o_orderkey, o_orderdate, o_custkey';
-EXEC dbo.sp_create_indexes_lineitems;
+/*
+	Let's create the required indexes for a good performance of the 
+	workload itself!
+*/
+BEGIN
+	EXEC dbo.sp_create_indexes_customers;
+	EXEC dbo.sp_create_indexes_orders @column_list = N'o_orderkey, o_orderdate, o_custkey';
+	EXEC dbo.sp_create_indexes_lineitems;
+END
 GO
 
 /* let's create the required tables first */
 DROP TABLE IF EXISTS webshop.lineitems;
 DROP TABLE IF EXISTS webshop.orders;
 DROP TABLE IF EXISTS webshop.customers;
+DROP TABLE IF EXISTS webshop.error_manager
 GO
 
 /* let's create the new schema if it not exists */
@@ -63,17 +60,23 @@ GO
 
 /* create the table webshop.customers with 1.6 Mio customers */
 RAISERROR ('Creating table webshop.customers...', 0, 1) WITH NOWAIT;
-SELECT	[c_custkey],
-		[c_mktsegment],
-		[c_nationkey],
-		[c_name],
-		[c_address],
-		[c_phone],
-		[c_acctbal],
-		[c_comment],
+SELECT	c.[c_custkey],
+		c.[c_mktsegment],
+		c.[c_nationkey],
+		c.[c_name],
+		c.[c_address],
+		c.[c_phone],
+		c.[c_acctbal],
+		c.[c_comment],
 		CAST(0 AS INT)	AS [num_orders]
-INTO	webshop.customers
-FROM	dbo.customers;
+INTO		webshop.customers
+FROM		dbo.customers AS c
+WHERE	EXISTS
+		(
+			SELECT	*
+			FROM		dbo.orders AS o
+			WHERE	o.o_custkey = c.c_custkey
+		);
 GO
 
 ALTER TABLE webshop.customers
@@ -94,8 +97,8 @@ SELECT	[o_orderdate],
 		[o_totalprice],
 		[o_comment],
 		[o_storekey]
-INTO	webshop.orders
-FROM	dbo.orders
+INTO		webshop.orders
+FROM		dbo.orders
 WHERE	1 = 0;
 GO
 
@@ -136,8 +139,8 @@ SELECT	[l_orderkey],
 		[l_shipmode],
 		[l_shipinstruct],
 		[l_comment]
-INTO	webshop.lineitems
-FROM	dbo.lineitems
+INTO		webshop.lineitems
+FROM		dbo.lineitems
 WHERE	1 = 0;
 GO
 
@@ -155,6 +158,18 @@ ADD CONSTRAINT fk_webshop_orders FOREIGN KEY (l_orderkey)
 REFERENCES webshop.orders (o_orderkey);
 GO
 
+CREATE TABLE webshop.error_manager
+(
+	id				INT				NOT NULL		IDENTITY(1, 1),
+	error_number		INT				NOT NULL		DEFAULT (0),
+	error_message	NVARCHAR(2048)	NOT NULL,
+	session_id		SMALLINT			NOT NULL,
+	o_orderkey		BIGINT			NULL,
+
+	PRIMARY KEY CLUSTERED (id)
+);
+GO
+
 /* A function is needed for the evaluation of the total num of orders for a customer */
 RAISERROR ('Creating function webshop.total_orders...', 0, 1) WITH NOWAIT;
 GO
@@ -168,12 +183,12 @@ BEGIN
 
 	INSERT INTO @t (o_orderkey)
 	SELECT	o_orderkey
-	FROM	webshop.orders
+	FROM		webshop.orders
 	WHERE	o_custkey = @o_custkey
 			AND YEAR(o_orderdate) = @o_orderyear;
 
 	SELECT	@return_value = COUNT(*)
-	FROM	@t;
+	FROM		@t;
 
 	RETURN	ISNULL(@return_value, 0);
 END
@@ -199,14 +214,14 @@ BEGIN
 	DECLARE	@actual_num_of_orders	INT;
 
 	DECLARE	@o_custkey				BIGINT;
-	DECLARE	@o_orderyear			INT;
+	DECLARE	@o_orderyear				INT;
 
 	/* Now let's loop through the new data and add the orders to the customers */
 	DECLARE	c CURSOR LOCAL FAST_FORWARD READ_ONLY
 	FOR
 		SELECT	o_custkey,
 				YEAR(o_orderdate)
-		FROM	inserted;
+		FROM		inserted;
 
 	OPEN	c;
 
@@ -236,8 +251,8 @@ BEGIN
 	/* How many orders does a specific customer have? */
 	DECLARE	@actual_num_of_orders	INT;
 
-	DECLARE	@new_o_custkey			BIGINT;
-	DECLARE	@old_o_custkey			BIGINT
+	DECLARE	@new_o_custkey		BIGINT;
+	DECLARE	@old_o_custkey		BIGINT
 	DECLARE	@new_o_orderyear		INT;
 	DECLARE	@old_o_orderyear		INT;
 
@@ -248,7 +263,7 @@ BEGIN
 				YEAR(i.o_orderdate)		AS	new_o_orderyear,
 				d.o_custkey				AS	old_o_custkey,
 				YEAR(d.o_orderdate)		AS	old_o_orderyear
-		FROM	inserted AS i
+		FROM		inserted AS i
 				INNER JOIN deleted AS d
 				ON (i.o_orderkey = d.o_orderkey);
 
@@ -291,14 +306,14 @@ BEGIN
 	DECLARE	@actual_num_of_orders	INT;
 
 	DECLARE	@o_custkey				BIGINT;
-	DECLARE	@o_orderyear			INT;
+	DECLARE	@o_orderyear				INT;
 
 	/* Now let's loop through the new data and add the orders to the customers */
 	DECLARE	c CURSOR LOCAL FAST_FORWARD READ_ONLY
 	FOR
 		SELECT	o_custkey,
 				YEAR(o_orderdate)
-		FROM	deleted;
+		FROM		deleted;
 
 	OPEN	c;
 
