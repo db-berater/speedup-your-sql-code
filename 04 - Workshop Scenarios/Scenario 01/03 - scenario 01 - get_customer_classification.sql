@@ -47,10 +47,10 @@ BEGIN
 			c.c_mktsegment,
 			c.c_nationkey,
 			c.c_name,
-			ccc.num_of_orders,
-			ccc.classification
-	FROM	dbo.customers AS c
-			CROSS APPLY dbo.calculate_customer_category(c.c_custkey, 2019, 0) AS ccc
+			ISNULL(ccc.num_of_orders, 0)		AS	num_of_orders,
+			ISNULL(ccc.classification, 'Z')	AS	classification
+	FROM		dbo.customers AS c
+			OUTER APPLY dbo.calculate_customer_category(c.c_custkey, 2019, 0) AS ccc
 	WHERE	c.c_custkey = @c_custkey;
 END
 GO

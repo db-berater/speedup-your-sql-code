@@ -44,6 +44,6 @@ EXEC dbo.sp_drop_indexes @table_name = N'dbo.customers',	@check_only = 0;
 GO
 
 /* Remove extended events used for this demo */
-IF EXISTS (SELECT * FROM sys.server_event_sessions WHERE name = N'Track Scalar Functions')
+IF EXISTS (SELECT * FROM sys.server_event_sessions WHERE name = N'Track UDFs')
 	DROP EVENT SESSION [Track Scalar Functions] ON SERVER;
 GO

@@ -48,7 +48,7 @@ AS
 						ELSE 'Z'
 						END
 			END			AS	classification
-	FROM	dbo.orders AS o
+	FROM		dbo.orders AS o
 	WHERE	o.o_custkey = @c_custkey
 			AND	o.o_orderdate >= DATEFROMPARTS(@int_orderyear - 1, 1, 1)
 			AND	o.o_orderdate <= DATEFROMPARTS(@int_orderyear, 12, 31)
@@ -59,7 +59,7 @@ AS
 SELECT	c_custkey,
 		num_of_orders,
 		classification
-FROM	l
+FROM		l
 WHERE	rn = 1
 OPTION (RECOMPILE);
 GO
@@ -107,7 +107,7 @@ AS
 						ELSE 'Z'
 						END
 			END			AS	classification
-	FROM	dbo.orders AS o
+	FROM		dbo.orders AS o
 	WHERE	o.o_custkey = @c_custkey
 			AND	o.o_orderdate >= DATEFROMPARTS(@int_orderyear - 1, 1, 1)
 			AND	o.o_orderdate <= DATEFROMPARTS(@int_orderyear, 12, 31)
@@ -118,7 +118,7 @@ AS
 SELECT	c_custkey,
 		num_of_orders,
 		classification
-FROM	l
+FROM		l
 WHERE	rn = 1
 OPTION (RECOMPILE);
 GO

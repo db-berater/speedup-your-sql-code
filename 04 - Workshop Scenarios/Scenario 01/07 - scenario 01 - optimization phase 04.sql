@@ -72,7 +72,7 @@ RETURN
 							ELSE 'Z'
 						  END
 				END			AS	classification
-		FROM	dbo.orders AS o
+		FROM		dbo.orders AS o
 		WHERE	o.o_custkey = @c_custkey
 				AND	o.o_orderdate >= DATEFROMPARTS(@int_orderyear - 1, 1, 1)
 				AND	o.o_orderdate <= DATEFROMPARTS(@int_orderyear, 12, 31)
@@ -86,10 +86,4 @@ RETURN
 	FROM	l
 	WHERE	rn = 1
 );
-GO
-
-/*
-	We are clearing the query store to focus on the last problem - indexing!
-*/
-ALTER DATABASE ERP_Demo SET QUERY_STORE CLEAR;
 GO

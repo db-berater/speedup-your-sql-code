@@ -41,9 +41,9 @@ CREATE OR ALTER FUNCTION dbo.calculate_customer_category
 )
 RETURNS @t TABLE
 (
-	c_custkey		BIGINT	NOT NULL	PRIMARY KEY CLUSTERED,
-	num_of_orders	INT		NOT NULL	DEFAULT (0),
-	classification	CHAR(1)	NOT NULL	DEFAULT ('Z')
+	c_custkey		BIGINT	NOT NULL		PRIMARY KEY CLUSTERED,
+	num_of_orders	INT		NOT NULL		DEFAULT (0),
+	classification	CHAR(1)	NOT NULL		DEFAULT ('Z')
 )
 BEGIN
 
@@ -58,7 +58,7 @@ BEGIN
 		Remove of NONSARGable expression and exchange by a SARGable expression!
 	*/
 	SELECT	@num_of_orders = COUNT_BIG(*)
-	FROM	dbo.orders
+	FROM		dbo.orders
 	WHERE	o_custkey = @c_custkey
 			AND o_orderdate >= DATEFROMPARTS(@int_orderyear, 1, 1)
 			AND o_orderdate <= DATEFROMPARTS(@int_orderyear, 12, 31);
@@ -89,7 +89,7 @@ BEGIN
 			INSERT INTO @t
 			(c_custkey, num_of_orders, classification)
 			SELECT	c_custkey, @num_of_orders, classification
-			FROM	dbo.calculate_customer_category(@c_custkey, @int_orderyear - 1, @calling_level + 1);
+			FROM		dbo.calculate_customer_category(@c_custkey, @int_orderyear - 1, @calling_level + 1);
 
 			UPDATE	@t
 			SET		classification = CASE WHEN classification = N'D'

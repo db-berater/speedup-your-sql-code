@@ -1,14 +1,14 @@
 USE ERP_Demo;
 GO
 
-IF EXISTS (SELECT * FROM sys.dm_xe_sessions WHERE name = N'Track Scalar Functions')
+IF EXISTS (SELECT * FROM sys.dm_xe_sessions WHERE name = N'Track UDFs')
 BEGIN
-	RAISERROR (N'Dropping XEvent-Session: [Track Scalar Functions]', 0, 1) WITH NOWAIT;
-	DROP EVENT SESSION [Track Scalar Functions] ON SERVER;
+	RAISERROR (N'Dropping XEvent-Session: [Track UDFs]', 0, 1) WITH NOWAIT;
+	DROP EVENT SESSION [Track UDFs] ON SERVER;
 END
 
-RAISERROR (N'Createing XEvent-Session: [Track Scalar Functions]', 0, 1) WITH NOWAIT;
-CREATE EVENT SESSION [Track Scalar Functions]
+RAISERROR (N'Createing XEvent-Session: [Track UDFs]', 0, 1) WITH NOWAIT;
+CREATE EVENT SESSION [Track UDFs]
 ON SERVER
 ADD EVENT sqlserver.sp_statement_completed
 (
@@ -74,6 +74,6 @@ WITH
 );
 GO
 
-RAISERROR (N'Starting XEvent-Session: [Track Scalar Functions]', 0, 1) WITH NOWAIT;
-ALTER EVENT SESSION [Track Scalar Functions] ON SERVER STATE = START;
+RAISERROR (N'Starting XEvent-Session: [Track UDFs]', 0, 1) WITH NOWAIT;
+ALTER EVENT SESSION [Track UDFs] ON SERVER STATE = START;
 GO

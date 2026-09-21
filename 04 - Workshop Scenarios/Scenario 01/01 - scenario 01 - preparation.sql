@@ -51,7 +51,7 @@ GO
 
 /* Create all necessary indexes on the tables! */
 EXEC dbo.sp_create_indexes_customers;
-EXEC dbo.sp_create_indexes_orders @column_list = N'o_orderkey, @o_orderdate';
+EXEC dbo.sp_create_indexes_orders @column_list = N'o_orderkey, o_custkey';
 GO
 
 EXEC dbo.sp_create_foreign_keys

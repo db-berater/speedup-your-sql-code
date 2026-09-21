@@ -37,10 +37,10 @@ SELECT	c.c_custkey,
         c.c_mktsegment,
         c.c_nationkey,
         c.c_name,
-		ccc.num_of_orders,
-		ccc.classification
-FROM	dbo.customers AS c
-		CROSS APPLY dbo.calculate_customer_category(c.c_custkey, 2019, 0) AS ccc
+		ISNULL(ccc.num_of_orders, 0)		AS	num_of_orders,
+		ISNULL(ccc.classification, 'Z')	AS	classification
+FROM		dbo.customers AS c
+		OUTER APPLY dbo.calculate_customer_category(c.c_custkey, 2019, 0) AS ccc
 WHERE	c.c_custkey = 1483396;	/* A-customer */
 GO
 
@@ -48,10 +48,10 @@ SELECT	c.c_custkey,
         c.c_mktsegment,
         c.c_nationkey,
         c.c_name,
-		ccc.num_of_orders,
-		ccc.classification
-FROM	dbo.customers AS c
-		CROSS APPLY dbo.calculate_customer_category(c.c_custkey, 2019, 0) AS ccc
+		ISNULL(ccc.num_of_orders, 0)		AS	num_of_orders,
+		ISNULL(ccc.classification, 'Z')	AS	classification
+FROM		dbo.customers AS c
+		OUTER APPLY dbo.calculate_customer_category(c.c_custkey, 2019, 0) AS ccc
 WHERE	c.c_custkey = 746111;		/* B-customer */
 GO
 
@@ -59,10 +59,10 @@ SELECT	c.c_custkey,
         c.c_mktsegment,
         c.c_nationkey,
         c.c_name,
-		ccc.num_of_orders,
-		ccc.classification
-FROM	dbo.customers AS c
-		CROSS APPLY dbo.calculate_customer_category(c.c_custkey, 2019, 0) AS ccc
+		ISNULL(ccc.num_of_orders, 0)		AS	num_of_orders,
+		ISNULL(ccc.classification, 'Z')	AS	classification
+FROM		dbo.customers AS c
+		OUTER APPLY dbo.calculate_customer_category(c.c_custkey, 2019, 0) AS ccc
 WHERE	c.c_custkey = 149134;		/* C-customer */
 GO
 
@@ -70,10 +70,10 @@ SELECT	c.c_custkey,
         c.c_mktsegment,
         c.c_nationkey,
         c.c_name,
-		ccc.num_of_orders,
-		ccc.classification
-FROM	dbo.customers AS c
-		CROSS APPLY dbo.calculate_customer_category(c.c_custkey, 2019, 0) AS ccc
+		ISNULL(ccc.num_of_orders, 0)		AS	num_of_orders,
+		ISNULL(ccc.classification, 'Z')	AS	classification
+FROM		dbo.customers AS c
+		OUTER APPLY dbo.calculate_customer_category(c.c_custkey, 2019, 0) AS ccc
 WHERE	c.c_custkey = 696764;		/* D-customer */
 GO
 
@@ -81,9 +81,24 @@ SELECT	c.c_custkey,
         c.c_mktsegment,
         c.c_nationkey,
         c.c_name,
-		ccc.num_of_orders,
-		ccc.classification
-FROM	dbo.customers AS c
-		CROSS APPLY dbo.calculate_customer_category(c.c_custkey, 2019, 0) AS ccc
+		ISNULL(ccc.num_of_orders, 0)		AS	num_of_orders,
+		ISNULL(ccc.classification, 'Z')	AS	classification
+FROM		dbo.customers AS c
+		OUTER APPLY dbo.calculate_customer_category(c.c_custkey, 2019, 0) AS ccc
 WHERE	c.c_custkey = 10;		/* Z-customer */
+GO
+
+/*
+	What happens, when we have more than ONE row in the output?
+	Checkout the call stack with extended event [XEvent - MultiLine Functions.sql]
+*/
+SELECT	c.c_custkey,
+        c.c_mktsegment,
+        c.c_nationkey,
+        c.c_name,
+		ISNULL(ccc.num_of_orders, 0)		AS	num_of_orders,
+		ISNULL(ccc.classification, 'Z')	AS	classification
+FROM		dbo.customers AS c
+		OUTER APPLY dbo.calculate_customer_category(c.c_custkey, 2019, 0) AS ccc
+WHERE	c.c_custkey <= 10;
 GO
